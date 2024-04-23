@@ -1,37 +1,61 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Animated, Image, ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import images from "../constants/images"
+import CustomButton from "../components/customButton";
+import { StatusBar } from "expo-status-bar";
+import { useEffect, useRef } from "react";
+import { router } from "expo-router";
+export default function App() {
+  const slideAnim = useRef(new Animated.Value(-500)).current;  // Initial value for slide: -500
+  const zoomAnim = useRef(new Animated.Value(0)).current;  // Initial value for slide: -500
 
-export default function Page() {
+  useEffect(() => {
+    Animated.timing(
+      slideAnim,
+      {
+        toValue: 0,
+        duration: 2000,
+        useNativeDriver: true,
+      }
+    ).start();
+
+    Animated.sequence([
+      Animated.timing(zoomAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+      Animated.timing(zoomAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, [slideAnim, zoomAnim]);
   return (
-    // <View style={styles.container} className="bg-[#166268]">
-    //   <View style={styles.main}>
-    //     <Text style={styles.title} className="text-3xl">Hello Bitch👀</Text>
-    //     <Text style={styles.subtitle}>This is the first page of your app.</Text>
-    //   </View>
-    // </View>
-    <View className="flex-1 items-center justify-center ">
-      <Text className="text-white">Open up App.js to start working on your app!</Text>
-    </View>
+    <SafeAreaView className="bg-black h-full">
+      <ScrollView contentContainerStyle={{ height: "100%" }}>
+        <View className="flex-row px-4 items-center justify-between">
+          <Text className="text-white text-4xl  ">NavFinder</Text>
+          <Image source={images.logo} className=" w-[30px] bg-white  h-[30px] rounded-lg" resizeMode="contain" />
+        </View>
+        <View className="w-full justify-center items-center h-[60%] p-0 m-0 ">
+          <Animated.Image source={images.earnerIllustra} style={{ transform: [{ scale: zoomAnim }], width: '100%', height: '200%' }} resizeMode="contain" />
+        </View>
+        <View className="px-4">
+          <Animated.View style={{ transform: [{ translateX: slideAnim }] }}>
+            <Text className="text-white text-2xl mt-2 ">Navigate Your City with Ease and Comfort Today </Text>
+          </Animated.View>
+          <CustomButton title="Continue With Email"
+            handlePress={() => { router.push('/sign-in') }}
+            containerStyle="mt-10 w-full"
+          />
+        </View>
+
+      </ScrollView>
+      <StatusBar backgroundColor='#000000' style='light' />
+    </SafeAreaView>
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: "center",
-//     padding: 24,
-//   },
-//   main: {
-//     flex: 1,
-//     justifyContent: "center",
-//     maxWidth: 960,
-//     marginHorizontal: "auto",
-//   },
-//   // title: {
-//   //   fontSize: 64,
-//   //   fontWeight: "bold",
-//   // },
-//   subtitle: {
-//     fontSize: 36,
-//     color: "#38434D",
-//   },
-// });
+

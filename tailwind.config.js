@@ -18,6 +18,13 @@ module.exports = {
         gray: {
           100: "#CDCDE0",
         },
+        uber: {
+          darkBackground: "#1F1F1F",
+          lighterBackground: "#2C2C2C",
+          primaryText: "#FFFFFF",
+          secondaryText: "#B3B3B3",
+          accent: "#E2241B",
+        },
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],
@@ -29,8 +36,9 @@ module.exports = {
         pbold: ["Poppins-Bold", "sans-serif"],
         pextrabold: ["Poppins-ExtraBold", "sans-serif"],
         pblack: ["Poppins-Black", "sans-serif"],
-        'nunito': ['Nunito Sans', 'sans-serif'],
-        'open': ['Open Sans', 'sans-serif'],
+        ubold: ['Uber-Bold', 'sans-serif'],
+        umedium: ['Uber-Medum', 'sans-serif'],
+        uregular: ['Uber-Regular', 'sans-serif'],
       },
     },
   },

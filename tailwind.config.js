@@ -6,7 +6,7 @@ module.exports = {
       colors: {
         primary: "#161622",
         secondary: {
-          DEFAULT: "#FF9C01",
+          DEFAULT: "#CDCDE0",
           100: "#FF9001",
           200: "#FF8E01",
         },
@@ -16,7 +16,7 @@ module.exports = {
           200: "#232533",
         },
         gray: {
-          100: "#CDCDE0",
+          100: "#ccc",
         },
         uber: {
           darkBackground: "#1F1F1F",

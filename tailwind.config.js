@@ -4,12 +4,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#161622",
-        secondary: {
-          DEFAULT: "#CDCDE0",
-          100: "#FF9001",
-          200: "#FF8E01",
-        },
+        primary: "#000000",
+        secondary: "#ffffff",
         black: {
           DEFAULT: "#000",
           100: "#1E1E2D",
@@ -18,13 +14,7 @@ module.exports = {
         gray: {
           100: "#ccc",
         },
-        uber: {
-          darkBackground: "#1F1F1F",
-          lighterBackground: "#2C2C2C",
-          primaryText: "#FFFFFF",
-          secondaryText: "#B3B3B3",
-          accent: "#E2241B",
-        },
+        lightGreen: "#383838",
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],
@@ -37,7 +27,7 @@ module.exports = {
         pextrabold: ["Poppins-ExtraBold", "sans-serif"],
         pblack: ["Poppins-Black", "sans-serif"],
         ubold: ['Uber-Bold', 'sans-serif'],
-        umedium: ['Uber-Medum', 'sans-serif'],
+        umedium: ['Uber-Medium', 'sans-serif'],
         uregular: ['Uber-Regular', 'sans-serif'],
       },
     },

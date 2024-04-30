@@ -39,7 +39,7 @@ const Home = () => {
           <Text className="text-2xl text-secondary font-ubold">Suggestions</Text>
           <Link href="/services" className="text-md text-secondary font-ubold">See All</Link>
         </View>
-        <View className="flex-row justify-center items-center">
+        <View className="flex-row justify-center items-center mx-8">
           <VehicleOptions vehicleType="uberX" prmoapplied={true} title="Trip" iconCss="w-20 h-20" />
           <VehicleOptions vehicleType="uberXL" prmoapplied={false} title="Intercity" iconCss="w-20 h-20" />
           <VehicleOptions vehicleType="uberP" prmoapplied={false} title="Premium" iconCss="w-20 h-20" />

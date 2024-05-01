@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Navfinder",
-    "slug": "Navfinder",
+    "slug": "navfinder",
     "scheme": "navfinder",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -22,7 +22,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/OIG2.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ashishjha75.navfinder"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -41,7 +42,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "80d12803-211f-478b-9dbe-0c77a5f8599a"
+        "projectId": "91fb1bb7-7c84-4d16-85aa-c481a19e4d9f"
       }
     }
   }

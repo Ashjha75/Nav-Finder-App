@@ -72,6 +72,7 @@ const TabsLayout = () => {
                             focused={focused}
                         />)
                 }} />
+
             </Tabs>
         </>
     )

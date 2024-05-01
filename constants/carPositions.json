@@ -1,0 +1,42 @@
+[
+    {
+        "accuracy": 100,
+        "altitude": 174.59999084472656,
+        "altitudeAccuracy": 100,
+        "heading": 0,
+        "latitude": 28.6778707,
+        "longitude": 77.3320698,
+        "speed": 0,
+        "vehicleType": "car"
+    },
+    {
+        "accuracy": 100,
+        "altitude": 174.59999084472656,
+        "altitudeAccuracy": 100,
+        "heading": 0,
+        "latitude": 28.9778708,
+        "longitude": 77.1320698,
+        "speed": 0,
+        "vehicleType": "bike"
+    },
+    {
+        "accuracy": 100,
+        "altitude": 174.59999084472656,
+        "altitudeAccuracy": 100,
+        "heading": 0,
+        "latitude": 28.78737,
+        "longitude": 77.3320728,
+        "speed": 0,
+        "vehicleType": "bus"
+    },
+    {
+        "accuracy": 100,
+        "altitude": 174.59999084472656,
+        "altitudeAccuracy": 100,
+        "heading": 0,
+        "latitude": 28.6078747,
+        "longitude": 77.3320738,
+        "speed": 0,
+        "vehicleType": "car"
+    }
+]

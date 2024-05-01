@@ -1,8 +1,10 @@
-import bookmark from "../assets/icons/bookmark.png";
+import activity from "../assets/icons/activity.png";
 import home from "../assets/icons/home.png";
-import plus from "../assets/icons/plus.png";
+import service from "../assets/icons/service.png";
 import profile from "../assets/icons/profile.png";
 import leftArrow from "../assets/icons/left-arrow.png";
+import downarrow from "../assets/icons/downarrow.png";
+import clock from "../assets/icons/clock.png";
 import menu from "../assets/icons/menu.png";
 import search from "../assets/icons/search.png";
 import upload from "../assets/icons/upload.png";
@@ -11,19 +13,35 @@ import logout from "../assets/icons/logout.png";
 import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
+import location from "../assets/icons/location.png";
+import square from "../assets/icons/square.png";
+import circle from "../assets/icons/circle.png";
+import plus from "../assets/icons/plus.png";
+import close from "../assets/icons/close.png";
+import star from "../assets/icons/star.png";
+import driver from "../assets/icons/driver.png";
 
 export default {
     play,
-    bookmark,
+    activity,
     home,
-    plus,
+    service,
     profile,
     leftArrow,
+    downarrow,
     menu,
+    clock,
     search,
     upload,
     rightArrow,
     logout,
     eyeHide,
     eye,
+    location,
+    square,
+    circle,
+    plus,
+    close,
+    star,
+    driver,
 };

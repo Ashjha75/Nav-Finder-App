@@ -1,10 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Stack, SplashScreen } from 'expo-router'
 import { useFonts } from 'expo-font'
 // import { GlobalProvider } from '../context/GlobalProvider';
-
+import * as Location from 'expo-location';
+import { UserLocationContext } from '../context/userLocationContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 SplashScreen.preventAutoHideAsync();
+
 const RootLayout = () => {
+    // access location of user
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
     const [fontsLoaded, error] = useFonts({
         "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
         "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
@@ -21,6 +27,7 @@ const RootLayout = () => {
     });
 
     useEffect(() => {
+
         if (error) throw error;
 
         if (fontsLoaded) {
@@ -28,19 +35,41 @@ const RootLayout = () => {
         }
     }, [fontsLoaded, error]);
 
+    useEffect(() => {
+        (async () => {
+
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== 'granted') {
+                setErrorMsg('Permission to access location was denied');
+                return;
+            }
+
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location.coords);
+        })();
+    }, []);
+
     if (!fontsLoaded && !error) {
         return null;
     }
+    let text = 'Waiting..';
+    if (errorMsg) {
+        text = errorMsg;
+    } else if (location) {
+        text = JSON.stringify(location);
+    }
     return (
         // <GlobalProvider>
-        <Stack>
-            <Stack.Screen name='index' options={{ headerShown: false }} />
-            <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-            <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-            {/* <Stack.Screen name='search/[query]' options={{ headerShown: false }} /> */}
-        </Stack>
-        // </GlobalProvider>
+        <UserLocationContext.Provider value={{ location, setLocation }}>
+            <GestureHandlerRootView style={{ flex: 1 }}>
+                <Stack>
+                    <Stack.Screen name='index' options={{ headerShown: false }} />
+                    <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+                    <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+                    <Stack.Screen name='(screen)' options={{ headerShown: false }} />
+                </Stack></GestureHandlerRootView ></UserLocationContext.Provider>
 
+        // </GlobalProvider>
         // stack is a container that holds multiple screens similar to react fragments
     )
 }

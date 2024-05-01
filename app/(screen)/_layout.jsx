@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar'
 const ScreenLayout = () => {
     return (
         <>
-            <Stack>
+            <Stack className="bg-primary">
                 <Stack.Screen
                     name='mapViewer'
                     options={{
@@ -14,7 +14,7 @@ const ScreenLayout = () => {
                 />
 
             </Stack>
-            <StatusBar backgroundColor='#161622' style='light' />
+            <StatusBar backgroundColor='#000' style='light' />
         </>
     )
 }

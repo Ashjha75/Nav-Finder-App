@@ -6,15 +6,9 @@ module.exports = {
       colors: {
         primary: "#000000",
         secondary: "#ffffff",
-        black: {
-          DEFAULT: "#000",
-          100: "#1E1E2D",
-          200: "#232533",
-        },
-        gray: {
-          100: "#ccc",
-        },
+        gray: "#aaa",
         lightGreen: "#383838",
+        darkgray: "#424242",
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],

@@ -58,7 +58,7 @@ const SignIn = () => {
                                 />
                                 <CustomButton title="Sign In" containerStyle="mt-10" onPress={handleSubmit} />
                                 <View className="justify-center pt-5 flex-row gap-2">
-                                    <Text className="text-lg text-gray-100 font-regular">Don't have an account? <Link href="/sign-up" className="text-white underline">Sign Up</Link></Text>
+                                    <Text className="text-lg text-[#a7a7a7]  font-regular">Don't have an account? <Link href="/sign-up" className="text-white underline">Sign Up</Link></Text>
                                 </View>
                                 <Text className="text-white text-center mt-28">
                                     By clicking on Sign In, you are accepting our{' '}

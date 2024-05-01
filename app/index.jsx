@@ -49,9 +49,9 @@ export default function App() {
           <CustomButton title="Continue With Email"
             handlePress={() => { router.push('/home') }}
             containerStyle="mt-10 w-full font-umedium"
+            showImage={true}
           />
         </View>
-
       </ScrollView>
       <StatusBar backgroundColor='#000000' style='light' />
     </SafeAreaView>

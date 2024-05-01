@@ -67,7 +67,7 @@ const SignUp = () => {
                                 />
                                 <CustomButton title="Sign Up" containerStyle="mt-10" onPress={handleSubmit} />
                                 <View className="justify-center pt-5 flex-row gap-2">
-                                    <Text className="text-lg text-gray-100 font-regular">Already have an account? <Link href="/sign-in" className="text-white underline">Sign In</Link></Text>
+                                    <Text className="text-lg text-[#c0bebe]  font-regular">Already have an account? <Link href="/sign-in" className="text-white underline">Sign In</Link></Text>
                                 </View>
                             </View>
                         )}

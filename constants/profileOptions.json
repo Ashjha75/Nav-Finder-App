@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "image": "gear",
+        "name": "Settings",
+        "link": "/settings"
+    },
+    {
+        "id": 2,
+        "image": "email",
+        "name": "Messages",
+        "link": "/messages"
+    },
+    {
+        "id": 3,
+        "image": "giftBox",
+        "name": "Send a gift",
+        "link": "/sendGift"
+    },
+    {
+        "id": 4,
+        "image": "user",
+        "name": "Manage account",
+        "link": "/settings"
+    },
+    {
+        "id": 5,
+        "image": "routes",
+        "name": "Shuttle Routes",
+        "link": "/shuttleRoutes"
+    }
+]

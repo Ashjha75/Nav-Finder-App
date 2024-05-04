@@ -20,6 +20,12 @@ import plus from "../assets/icons/plus.png";
 import close from "../assets/icons/close.png";
 import star from "../assets/icons/star.png";
 import driver from "../assets/icons/driver.png";
+import routes from "../assets/icons/routes.png";
+import gear from "../assets/icons/gear.png";
+import giftBox from "../assets/icons/giftBox.png";
+import user from "../assets/icons/user.png";
+import email from "../assets/icons/email.png";
+
 
 export default {
     play,
@@ -44,4 +50,9 @@ export default {
     close,
     star,
     driver,
+    routes,
+    gear,
+    giftBox,
+    user,
+    email,
 };

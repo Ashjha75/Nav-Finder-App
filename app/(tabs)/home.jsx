@@ -18,10 +18,13 @@ const Home = () => {
               <TextInput className=" bg-[#424242]  text-white  w-[40%] h-14  font-ubold text-xl  px-4" placeholder="Where To?" placeholderTextColor="#bdbdbd" /></Link>
             <View className="w-[1.5px] h-75 pt-8 bg-primary"></View>
             <View className="w-[42%] my-3 h-14  justify-center items-center flex  bg-[#424242] rounded-r-3xl">
-              <View className="bg-primary h-10 w-32 rounded-3xl flex-row justify-center items-center"><Image source={icons.clock} className="w-5 h-5 px-6" resizeMode="contain" />
-                <Text className="text-secondary text-base font-bold">Now</Text>
-                <Image source={icons.downarrow} className="w-4 h-4 px-6" resizeMode="contain" />
-              </View>
+              <TouchableOpacity activeOpacity={0.8} onPress={() => router.push("/datePicker")}>
+                <View className="bg-primary h-10 w-32 rounded-3xl flex-row justify-center items-center"><Image source={icons.clock} className="w-5 h-5 px-6" resizeMode="contain" />
+                  <Text className="text-secondary text-base font-bold">Now</Text>
+                  <Image source={icons.downarrow} className="w-4 h-4 px-6" resizeMode="contain" />
+                </View>
+              </TouchableOpacity>
+
             </View>
           </View>
           <TouchableOpacity onPress={() => router.push("/mapViewer")} className="px-5 py-4 items-center flex-row">

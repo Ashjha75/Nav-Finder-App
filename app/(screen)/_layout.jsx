@@ -12,6 +12,13 @@ const ScreenLayout = () => {
                         headerShown: false
                     }}
                 />
+                <Stack.Screen
+                    name='datePicker'
+                    options={{
+                        headerShown: false
+                    }}
+                />
+
 
             </Stack>
             <StatusBar backgroundColor='#000' style='light' />

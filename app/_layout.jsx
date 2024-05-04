@@ -5,6 +5,8 @@ import { useFonts } from 'expo-font'
 import * as Location from 'expo-location';
 import { UserLocationContext } from '../context/userLocationContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+
 SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
@@ -62,13 +64,15 @@ const RootLayout = () => {
         // <GlobalProvider>
         <UserLocationContext.Provider value={{ location, setLocation }}>
             <GestureHandlerRootView style={{ flex: 1 }}>
-                <Stack>
-                    <Stack.Screen name='index' options={{ headerShown: false }} />
-                    <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-                    <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-                    <Stack.Screen name='(screen)' options={{ headerShown: false }} />
-                </Stack></GestureHandlerRootView ></UserLocationContext.Provider>
-
+                <BottomSheetModalProvider>
+                    <Stack>
+                        <Stack.Screen name='index' options={{ headerShown: false }} />
+                        <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+                        <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+                        <Stack.Screen name='(screen)' options={{ headerShown: false }} />
+                    </Stack>
+                </BottomSheetModalProvider>
+            </GestureHandlerRootView ></UserLocationContext.Provider>
         // </GlobalProvider>
         // stack is a container that holds multiple screens similar to react fragments
     )

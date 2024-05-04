@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 const AuthLayout = () => {
     return (
         <>
+
             <Stack className="bg-primary">
                 <Stack.Screen
                     name='sign-in'

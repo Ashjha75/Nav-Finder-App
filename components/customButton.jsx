@@ -4,6 +4,7 @@ import { TouchableOpacity } from 'react-native'
 import images from '../constants/images'
 
 const CustomButton = ({ title, handlePress, containerStyle, textStyles, isLoading, showImage }) => {
+    console.log(handlePress)
     return (
         <TouchableOpacity
             onPress={handlePress}

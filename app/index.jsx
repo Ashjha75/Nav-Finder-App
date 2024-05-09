@@ -47,7 +47,7 @@ export default function App() {
             <Text className="text-white font-uregular text-2xl mt-2 ">Navigate Your City with Ease and Comfort Today </Text>
           </Animated.View>
           <CustomButton title="Continue With Email"
-            handlePress={() => { router.push('/profile') }}
+            handlePress={() => { router.push('/sign-up') }}
             containerStyle="mt-10 w-full font-umedium"
             showImage={true}
           />

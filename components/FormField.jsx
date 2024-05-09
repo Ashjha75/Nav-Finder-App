@@ -10,12 +10,12 @@ const FormField = ({ title, value, placeholder, handleChangeText, handleBlur, er
     return (
         <View className={`space-y-2  ${otherStyle}`}>
             <Text className="text-base text-[#e0e0e0] font-pmedium">{title}</Text>
-            <View className="w-full h-16 px-4  border-2 border-[#212121] rounded-2xl focus:border-[#909191] items-center flex-row">
+            <View className="w-full h-14 px-4  border-2 border-[#212121] rounded-2xl focus:border-[#909191] items-center flex-row">
                 <TextInput
                     className="flex-1 text-white text-base font-pbold"
                     value={value}
                     onChangeText={handleChangeText}
-                    onBlur={() => handleBlur(title)}
+                    onBlur={handleBlur}
                     placeholder={placeholder}
                     secureTextEntry={isPassword && !showPassword}
                 />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
 import images from '../../constants/images';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,48 +6,43 @@ import FormField from '../../components/FormField';
 import CustomButton from '../../components/customButton';
 import { Link } from 'expo-router';
 import { Formik } from 'formik';
-import axios from 'axios';
 import { SignUpSchema } from '../../utils/yup/yup-schemas';
+import useApi from '../../utils/services/baseservice';
+import Loader from '../../components/loader';
+import CustomModal from '../../components/customModal';
 
-// Assuming you have a base URL for your API
-const API_BASE_URL = 'http://192.168.1.8:8001/api/v1';
 
 const SignUp = () => {
-    const signUpUser = async (values) => {
+    const {loading, post}=useApi();
+const [showModal, setShowModal] = useState({})
+    const signUpUser = async (values)=>{
         try {
-            console.log(values);
-            const response = await axios.post(`${API_BASE_URL}/auth/signup`, values, {
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-            console.log(response.data); // Handle success
-            // Navigate to another screen or show a success message
-        }catch (error) {
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-                console.log("1");
-            } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in Node.js
-                console.log(error.request);
-                console.log("2");
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
-                console.log("3");
+            setShowModal({
+                isVisible:false,
+                value:""
+            })
+            const url="/auth/signup";
+            const response = await post(url, values);
+            if(response.success){
+                router.push("/home")
             }
+            return response.data;
+    
+        } catch (error) {
+            if(error.response.data.success== false){
+            setShowModal({
+                isVisible:true,
+                value:error.response.data.message,
+            })}
+            console.log("error",error.response.data.message);
         }
-    };
+     }
 
     return (
         <SafeAreaView className="bg-primary h-full w-full flex-col justify-center">
-            <ScrollView contentContainerStyle={{ height: "100%" }}>
+            {
+                loading?<Loader/>:(<>
+                <ScrollView contentContainerStyle={{ height: "100%" }}>
                 <View className="flex-row px-4 items-center mt-8 justify-start">
                     <Image source={images.logo} className="w-[45px] bg-secondary h-[45px] rounded-lg" resizeMode="contain" />
                 </View>
@@ -108,6 +103,9 @@ const SignUp = () => {
                     </Formik>
                 </View>
             </ScrollView>
+         <CustomModal data={showModal}/>
+            </>)
+            }
         </SafeAreaView>
     );
 };

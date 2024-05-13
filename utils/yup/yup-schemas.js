@@ -9,4 +9,25 @@ const SignUpSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
 });
-export { SignInSchema ,SignUpSchema}
+const OnboardingSchema = Yup.object().shape({
+    firstName: Yup.string().required('First Name is required'),
+    lastName: Yup.string().required('Last Name is required'),
+    file: Yup.mixed().required('File is required'), // You may need to adjust this based on how you're handling file uploads
+    mobile: Yup.string().required('Mobile is required'),
+    address: Yup.object().shape({
+        landmark: Yup.string().required('Landmark is required'),
+        street: Yup.string().required('Street is required'),
+        city: Yup.string().required('City is required'),
+        state: Yup.string().required('State is required'),
+        postalCode: Yup.string().required('Postal Code is required'),
+        country: Yup.string().required('Country is required'),
+    }),
+    dob: Yup.date().required('Date of Birth is required'),
+    gender: Yup.string().required('Gender is required'),
+    AccountStatus: Yup.string().required('Account Status is required'),
+    securityQuestions: Yup.object().shape({
+        question1: Yup.string().required('Security Question is required'),
+        answer1: Yup.string().required('Security Answer is required'),
+    }),
+});
+export { SignInSchema ,SignUpSchema,OnboardingSchema}

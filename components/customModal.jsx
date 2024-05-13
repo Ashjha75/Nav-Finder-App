@@ -1,7 +1,8 @@
 import React, { forwardRef, useCallback, useMemo, useRef, useEffect, useState } from 'react';
-import { Text } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { BottomSheetBackdrop, BottomSheetModal, BottomSheetView } from '@gorhom/bottom-sheet';
 import CustomButton from './customButton';
+import icons from '../constants/icons';
 
 // const CustomModal = forwardRef(({ data}, ref) => {
 //     const { isVisible, value } = data;
@@ -64,7 +65,14 @@ const CustomModal = forwardRef(({ data }, ref) => {
         handleIndicatorStyle={{ backgroundColor: "#424242" }}
       >
         <BottomSheetView style={{ flex: 1, justifyContent: 'space-around' }}>
-          <Text className="text-white text-2xl text-center font-pregular mt-3 mx-3">{value}</Text>
+       <View className="flex-row justify-center items-center mt-3 pl-2">
+       {
+            value == ''?<Image source={icons.check} className="w-[30px] h-[30px] mx-2" />:
+            <Image source={icons.xmark} className="w-[30px] h-[30px] mx-2" />
+          }
+          <Text className="text-white text-2xl text-center font-pregular  ">{value}</Text>
+       </View>
+        
          {value =='' ?<CustomButton title="Confirm " handlePress={() => console.log("hi")} containerStyle="mt-8 mx-3" textStyles="font-" />:""
 }
           <CustomButton title="Cancel" handlePress={() => bottomSheetModalRef.current.dismiss()} containerStyle="mt-4 mx-3 bg-[#1e5546]" textStyles="text-white font-pmedium" />

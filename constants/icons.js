@@ -25,6 +25,8 @@ import gear from "../assets/icons/gear.png";
 import giftBox from "../assets/icons/giftBox.png";
 import user from "../assets/icons/user.png";
 import email from "../assets/icons/email.png";
+import check from "../assets/icons/check.png";
+import xmark from "../assets/icons/xmark.png";
 
 
 export default {
@@ -55,4 +57,6 @@ export default {
     giftBox,
     user,
     email,
+    xmark,
+    check,
 };

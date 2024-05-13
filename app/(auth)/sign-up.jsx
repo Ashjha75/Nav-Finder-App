@@ -10,18 +10,38 @@ import axios from 'axios';
 import { SignUpSchema } from '../../utils/yup/yup-schemas';
 
 // Assuming you have a base URL for your API
-const API_BASE_URL = 'https://your-api-base-url.com';
+const API_BASE_URL = 'http://192.168.1.8:8001/api/v1';
 
 const SignUp = () => {
     const signUpUser = async (values) => {
-        console.log(values)
         try {
-            // const response = await axios.post(`${API_BASE_URL}/signup`, values);
-            console.log("response.data"); // Handle success
+            console.log(values);
+            const response = await axios.post(`${API_BASE_URL}/auth/signup`, values, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+            console.log(response.data); // Handle success
             // Navigate to another screen or show a success message
-        } catch (error) {
-            console.error(error); // Handle error
-            // Show an error message
+        }catch (error) {
+            if (error.response) {
+                // The request was made and the server responded with a status code
+                // that falls out of the range of 2xx
+                console.log(error.response.data);
+                console.log(error.response.status);
+                console.log(error.response.headers);
+                console.log("1");
+            } else if (error.request) {
+                // The request was made but no response was received
+                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                // http.ClientRequest in Node.js
+                console.log(error.request);
+                console.log("2");
+            } else {
+                // Something happened in setting up the request that triggered an Error
+                console.log('Error', error.message);
+                console.log("3");
+            }
         }
     };
 
@@ -36,7 +56,7 @@ const SignUp = () => {
                         <Text className="text-secondary font-medium text-2xl">Create your account</Text>
                     </View>
                     <Formik
-                        initialValues={{ username: '', email: '', password: '' }}
+                        initialValues={{ userName: '', email: '', password: '' }}
                         validationSchema={SignUpSchema}
                         onSubmit={(values, { validateForm }) => {
                             validateForm(values).then((errors) => {
@@ -44,18 +64,17 @@ const SignUp = () => {
                                     signUpUser(values); // Make the API call here
                                 }
                             });
-                            signUpUser(values)
                         }}
                     >
                         {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                             <View className="mt-5 px-5">
                                 <FormField
                                     title="Username"
-                                    value={values.username}
-                                    handleChangeText={handleChange('username')}
-                                    handleBlur={handleBlur('username')} // pass the field name
-                                    error={errors.username}
-                                    touched={touched.username}
+                                    value={values.userName}
+                                    handleChangeText={handleChange('userName')}
+                                    handleBlur={handleBlur('userName')} // pass the field name
+                                    error={errors.userName}
+                                    touched={touched.userName}
                                     otherStyle="mt-7"
                                     keyboardType="default"
                                 />

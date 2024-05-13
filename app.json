@@ -35,7 +35,8 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow NavFinder to use your location."
         }
-      ]
+      ],
+      "expo-font"
     ],
     "extra": {
       "router": {

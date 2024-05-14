@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, Image } from 'react-native';
 import images from '../../constants/images';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,11 +12,77 @@ import FormField from '../../components/FormField';
 import SelectFormField from '../../components/selectFormField';
 
 const OnboardingScreen = () => {
+    const [result, setResult] = useState(null)
     const { loading, post } = useApi();
-    const [showModal, setShowModal] = useState({})
+    const [showModal, setShowModal] = useState({});
+
+    useEffect(() => {
+        ; (async () => {
+            try {
+                const body = { lookups: ["genders", "securityQuestions"] }
+                setShowModal({
+                    isVisible: false,
+                    value: ""
+                })
+                const url = "/lookups";
+                const response = await post(url, body);
+                if (response.success) {
+                    setResult(response.data)
+                }
+                return;
+
+            } catch (error) {
+                setShowModal({
+                    isVisible: true,
+                    value: error.response.data.message,
+                })
+                setResult(null)
+                console.log("error", error.response.data.message);
+            }
+        })()
+    }, [])
 
     const onboardUser = async (values) => {
+        let newValues = { ...values };
+
+        // Extract the key from gender
+        if (newValues.gender && newValues.gender.key) {
+            newValues.gender = newValues.gender.key;
+        }
+        let formData = new FormData();
+
+        // Append each property of newValues to formData
+        for (let key in newValues) {
+            formData.append(key, newValues[key]);
+        }
         // Implement the API call here
+        try {
+            setShowModal({
+                isVisible: false,
+                value: ""
+            })
+            const url = "/auth/onboarding";
+            const customHeaders = {
+                'Content-Type': 'multipart/form-data',
+                "Authorization": "Bearer " + " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDA4MWI4MzI4Y2MxZGRhMTRiNzFhYiIsImVtYWlsIjoib25lQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoidXNlcm9uZSIsImFjY291bnRUeXBlIjoiVXNlciIsIkFjY291bnRTdGF0dXMiOiJBY3RpdmUiLCJpc09uYm9hcmRlZCI6dHJ1ZSwiaWF0IjoxNzE1NzEyMTk1LCJleHAiOjE3MTU3MTI3OTV9.q6FM6r83RBBsLbHBatWBe5eHfuz8EHkIim5_ZBBq2M4"
+            };
+            const response = await post(url, formData);
+            if (response.success) {
+                setShowModal({
+                    isVisible: true,
+                    value: response.message,
+                })
+            }
+            return;
+
+        } catch (error) {
+            setShowModal({
+                isVisible: true,
+                value: error.response.data.message,
+            })
+            setResult(null)
+            console.log("error", error.response.data.message);
+        }
     }
 
     return (
@@ -26,7 +92,7 @@ const OnboardingScreen = () => {
 
                     <View className="flex justify-center mt-2 mb-4">
                         <View className="flex-row px-4 items-center mt-8 justify-between">
-                                <Text className="text-secondary font-medium text-2xl">Onboarding</Text>
+                            <Text className="text-secondary font-medium text-2xl">Onboarding</Text>
                             <Image source={images.logo} className="w-[45px] bg-secondary h-[45px] rounded-lg" resizeMode="contain" />
 
                         </View>
@@ -56,14 +122,14 @@ const OnboardingScreen = () => {
                             onSubmit={(values, { validateForm }) => {
                                 validateForm(values).then((errors) => {
                                     if (Object.keys(errors).length === 0) {
-                                        onboardUser(values);
+                                        onboardUser(values); // Make the API call here
                                     }
                                 });
                             }}
                         >
-                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
                                 <View className="mt-5 px-5">
-                                    <SelectFormField />
+
                                     <FormField
                                         title="First Name"
                                         value={values.firstName}
@@ -71,7 +137,6 @@ const OnboardingScreen = () => {
                                         handleBlur={handleBlur('firstName')}
                                         error={errors.firstName}
                                         touched={touched.firstName}
-                                        otherStyle="mt-7"
                                         keyboardType="default"
                                     />
                                     <FormField
@@ -84,7 +149,14 @@ const OnboardingScreen = () => {
                                         otherStyle="mt-7"
                                         keyboardType="default"
                                     />
-                                    {/* Add a component for file upload here */}
+                                    <SelectFormField
+                                        data={result ? result?.genders : []}
+                                        title="Gender"
+                                        selectedItem={values.gender}
+                                        handleSelect={(selectedItem) => setFieldValue('gender', selectedItem)}
+                                        error={errors.gender}
+                                        touched={touched.gender}
+                                    />
                                     <FormField
                                         title="Mobile"
                                         value={values.mobile}
@@ -93,7 +165,17 @@ const OnboardingScreen = () => {
                                         error={errors.mobile}
                                         touched={touched.mobile}
                                         otherStyle="mt-7"
-                                        keyboardType="phone-pad"
+                                        keyboardType="numeric"
+                                    />
+                                    <FormField
+                                        title="Date of Birth"
+                                        value={values.dob}
+                                        handleChangeText={handleChange('dob')}
+                                        handleBlur={handleBlur('dob')}
+                                        error={errors.dob}
+                                        touched={touched.dob}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
                                     />
                                     <FormField
                                         title="Landmark"
@@ -105,28 +187,64 @@ const OnboardingScreen = () => {
                                         otherStyle="mt-7"
                                         keyboardType="default"
                                     />
-                                    {/* Add FormField components for the rest of the fields in the address object here */}
                                     <FormField
-                                        title="Date of Birth"
-                                        value={values.dob}
-                                        handleChangeText={handleChange('dob')}
-                                        handleBlur={handleBlur('dob')}
-                                        error={errors.dob}
-                                        touched={touched.dob}
+                                        title="Street"
+                                        value={values.address.street}
+                                        handleChangeText={handleChange('address.street')}
+                                        handleBlur={handleBlur('address.street')}
+                                        error={errors.address?.street}
+                                        touched={touched.address?.street}
                                         otherStyle="mt-7"
                                         keyboardType="default"
                                     />
-                                    {/* Add a component for gender selection here */}
-                                    {/* Add a component for AccountStatus selection here */}
                                     <FormField
-                                        title="Security Question"
-                                        value={values.securityQuestions.question1}
-                                        handleChangeText={handleChange('securityQuestions.question1')}
-                                        handleBlur={handleBlur('securityQuestions.question1')}
-                                        error={errors.securityQuestions?.question1}
-                                        touched={touched.securityQuestions?.question1}
+                                        title="City"
+                                        value={values.address.city}
+                                        handleChangeText={handleChange('address.city')}
+                                        handleBlur={handleBlur('address.city')}
+                                        error={errors.address?.city}
+                                        touched={touched.address?.city}
                                         otherStyle="mt-7"
                                         keyboardType="default"
+                                    />
+                                    <FormField
+                                        title="State"
+                                        value={values.address.state}
+                                        handleChangeText={handleChange('address.state')}
+                                        handleBlur={handleBlur('address.state')}
+                                        error={errors.address?.state}
+                                        touched={touched.address?.state}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <FormField
+                                        title="Postal Code"
+                                        value={values.address.postalCode}
+                                        handleChangeText={handleChange('address.postalCode')}
+                                        handleBlur={handleBlur('address.postalCode')}
+                                        error={errors.address?.postalCode}
+                                        touched={touched.address?.postalCode}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <FormField
+                                        title="Country"
+                                        value={values.address.country}
+                                        handleChangeText={handleChange('address.country')}
+                                        handleBlur={handleBlur('address.country')}
+                                        error={errors.address?.country}
+                                        touched={touched.address?.country}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <SelectFormField
+                                        data={result ? result?.securityQuestions : []}
+                                        title="Security Question"
+                                        selectedItem={values.securityQuestions?.question1}
+                                        handleSelect={(selectedItem) => setFieldValue('securityQuestions?.question1', selectedItem)}
+                                        error={errors.securityQuestions?.question1}
+                                        touched={touched.securityQuestions?.question1}
+                                        dropdownDirection="up"
                                     />
                                     <FormField
                                         title="Security Answer"

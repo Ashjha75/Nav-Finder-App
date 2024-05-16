@@ -4,7 +4,7 @@ import icons from '../constants/icons'
 import { useState } from 'react';
 
 const FormField = ({ title, value, placeholder, handleChangeText, handleBlur, error, touched, secureTextEntry, otherStyle,keyboardType, ...props }) => {
-    const isPassword = title === 'Password';
+    const isPassword = title.includes("Password") ;
     const [showPassword, setShowPassword] = useState(false);
 
     return (

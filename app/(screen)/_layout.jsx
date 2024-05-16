@@ -18,6 +18,24 @@ const ScreenLayout = () => {
                         headerShown: false
                     }}
                 />
+                <Stack.Screen
+                    name='otp'
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name='changePassword'
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                <Stack.Screen
+                    name='documentOptions'
+                    options={{
+                        headerShown: false
+                    }}
+                />
 
 
             </Stack>

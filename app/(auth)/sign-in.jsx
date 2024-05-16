@@ -22,7 +22,7 @@ const [showModal, setShowModal] = useState({})
         const url="/auth/login";
         const response = await post(url, values);
         if(response.success){
-            router.push("/home")
+            router.replace("/home")
         }
         return response.data;
 
@@ -81,6 +81,7 @@ const [showModal, setShowModal] = useState({})
                                  error={errors.password}
                                  touched={touched.password}
                              />
+                             <Link href="forgot-password" className="text-blue-500 mt-2 text-right underline">Forgot Password?</Link>
                              <CustomButton title="Sign In" containerStyle="mt-10" handlePress={handleSubmit} />
                              <View className="justify-center pt-5 flex-row gap-2">
                                  <Text className="text-lg text-[#a7a7a7]  font-regular">Didn't have an account? <Link href="/sign-up" className="text-white underline">Sign Up</Link></Text>

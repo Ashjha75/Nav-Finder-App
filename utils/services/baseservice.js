@@ -31,17 +31,13 @@ const useApi = () => {
   }, [api]);
 
   const post = useCallback(async (url, data = {}, customHeaders = {}) => {
-    console.log(url)
-    console.log(data)
-    console.log(customHeaders)
     
     setError(null);
     setLoading(true);
     try {
       const response = await api.post(url, data, { headers: { ...api.defaults.headers, ...customHeaders } });
-      return response.data;
+      return response?.data;
     } catch (error) {
-        console.log(error);
       setError(error);
       throw error;
     } finally {

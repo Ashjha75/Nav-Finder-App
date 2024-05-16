@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image,TouchableOpacity } from 'react-native';
 import images from '../../constants/images';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '../../components/customButton';
@@ -10,12 +10,12 @@ import Loader from '../../components/loader';
 import CustomModal from '../../components/customModal';
 import FormField from '../../components/FormField';
 import SelectFormField from '../../components/selectFormField';
-
+import PickFile from '../../components/pickFile';
 const OnboardingScreen = () => {
     const [result, setResult] = useState(null)
     const { loading, post } = useApi();
     const [showModal, setShowModal] = useState({});
-
+  
     useEffect(() => {
         ; (async () => {
             try {
@@ -64,9 +64,9 @@ const OnboardingScreen = () => {
             const url = "/auth/onboarding";
             const customHeaders = {
                 'Content-Type': 'multipart/form-data',
-                "Authorization": "Bearer " + " eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDA4MWI4MzI4Y2MxZGRhMTRiNzFhYiIsImVtYWlsIjoib25lQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoidXNlcm9uZSIsImFjY291bnRUeXBlIjoiVXNlciIsIkFjY291bnRTdGF0dXMiOiJBY3RpdmUiLCJpc09uYm9hcmRlZCI6dHJ1ZSwiaWF0IjoxNzE1NzEyMTk1LCJleHAiOjE3MTU3MTI3OTV9.q6FM6r83RBBsLbHBatWBe5eHfuz8EHkIim5_ZBBq2M4"
+                "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDA4MWI4MzI4Y2MxZGRhMTRiNzFhYiIsImVtYWlsIjoib25lQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoidXNlcm9uZSIsImFjY291bnRUeXBlIjoiVXNlciIsIkFjY291bnRTdGF0dXMiOiJBY3RpdmUiLCJpc09uYm9hcmRlZCI6dHJ1ZSwiaWF0IjoxNzE1NzY1MDEzLCJleHAiOjE3MTU3Njg2MTN9.BPUnGdQ0IwyP70qVZiUqQ6vgU-vn0QUVtxQBEsO7Nmw"
             };
-            const response = await post(url, formData);
+            const response = await post(url, newValues, customHeaders);
             if (response.success) {
                 setShowModal({
                     isVisible: true,
@@ -127,9 +127,10 @@ const OnboardingScreen = () => {
                                 });
                             }}
                         >
-                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
-                                <View className="mt-5 px-5">
-
+                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => {
+                                return (
+                                    <View className=" mt-5 px-5">
+                                <PickFile title="Profile Picture" value={values.file} handleChange={handleChange('file')} handleBlur={handleBlur('file')} error={errors.file} touched={touched.file} setFieldValue={setFieldValue} />
                                     <FormField
                                         title="First Name"
                                         value={values.firstName}
@@ -258,7 +259,8 @@ const OnboardingScreen = () => {
                                     />
                                     <CustomButton title="Submit" containerStyle="mt-10" handlePress={handleSubmit} />
                                 </View>
-                            )}
+                                )
+                            }}
                         </Formik>
                     </View>
                 </ScrollView>

@@ -31,6 +31,10 @@ const useApi = () => {
   }, [api]);
 
   const post = useCallback(async (url, data = {}, customHeaders = {}) => {
+    console.log(url)
+    console.log(data)
+    console.log(customHeaders)
+    
     setError(null);
     setLoading(true);
     try {

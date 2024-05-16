@@ -31,6 +31,7 @@ import promos from "../assets/images/promos.png";
 import clipBoard from "../assets/images/clipBoard.png";
 import leaf from "../assets/images/leaf.png";
 import bars from "../assets/images/bars.png";
+import upload from "../assets/images/folder-upload.png";
 export default {
-    rightArrow, rightArrow2, earnerIllustra, logo, uberX, uberXL, uberP, bus, rickshaw, bike, schedule, restaurant, parsel, car, pin, focus, briefcase, groupRide, yourschdeule, shuttlebus, scheduletime, promo, ondemand, space, user, lifesaver, wallet, activity, promos, graph, clipBoard, leaf, bars,
+    rightArrow, rightArrow2, earnerIllustra, logo, uberX, uberXL, uberP, bus, rickshaw, bike, schedule, restaurant, parsel, car, pin, focus, briefcase, groupRide, yourschdeule, shuttlebus, scheduletime, promo, ondemand, space, user, lifesaver, wallet, activity, promos, graph, clipBoard, leaf, bars,upload,
 }

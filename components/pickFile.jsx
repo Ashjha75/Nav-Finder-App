@@ -16,8 +16,7 @@ const PickFile = ({ title, value, handleBlur,handleChange, error, touched, other
               
                 if (!result.canceled) {
                     setImageUri(result.assets[0].uri)
-                    setFieldValue('file',result.assets[0].uri);
-                    console.log("result",result.assets[0].uri)
+                    setFieldValue('file',result.assets[0]);
                 }
 
             // Handle the result here

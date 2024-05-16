@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ScrollView, Image,TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, Image} from 'react-native';
 import images from '../../constants/images';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '../../components/customButton';
@@ -11,6 +11,7 @@ import CustomModal from '../../components/customModal';
 import FormField from '../../components/FormField';
 import SelectFormField from '../../components/selectFormField';
 import PickFile from '../../components/pickFile';
+// import RNFetchBlob from 'rn-fetch-blob';
 const OnboardingScreen = () => {
     const [result, setResult] = useState(null)
     const { loading, post } = useApi();
@@ -32,19 +33,22 @@ const OnboardingScreen = () => {
                 return;
 
             } catch (error) {
-                setShowModal({
-                    isVisible: true,
-                    value: error.response.data.message,
-                })
-                setResult(null)
-                console.log("error", error.response.data.message);
+                if (error.response && error.response.data && error.response.data.message) {
+                    setShowModal({
+                        isVisible: true,
+                        value: error.response.data.message,
+                    });
+                } else {
+                    // Handle cases where response or its properties are undefined
+                    console.log("Unexpected error format:", error);
+                }
             }
         })()
     }, [])
 
     const onboardUser = async (values) => {
         let newValues = { ...values };
-
+        newValues.AccountStatus="Active"
         // Extract the key from gender
         if (newValues.gender && newValues.gender.key) {
             newValues.gender = newValues.gender.key;
@@ -55,6 +59,18 @@ const OnboardingScreen = () => {
         for (let key in newValues) {
             formData.append(key, newValues[key]);
         }
+        for (let key in newValues) {
+            if (key === 'file') {
+                // Append the file path directly to the FormData instance
+                formData.append(key, {
+                    uri: newValues[key].uri,
+                    type: newValues[key].mimeType,
+                    name: newValues[key].fileName,
+                });
+            } else {
+                formData.append(key, newValues[key]);
+            }
+        }
         // Implement the API call here
         try {
             setShowModal({
@@ -64,9 +80,9 @@ const OnboardingScreen = () => {
             const url = "/auth/onboarding";
             const customHeaders = {
                 'Content-Type': 'multipart/form-data',
-                "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDA4MWI4MzI4Y2MxZGRhMTRiNzFhYiIsImVtYWlsIjoib25lQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoidXNlcm9uZSIsImFjY291bnRUeXBlIjoiVXNlciIsIkFjY291bnRTdGF0dXMiOiJBY3RpdmUiLCJpc09uYm9hcmRlZCI6dHJ1ZSwiaWF0IjoxNzE1NzY1MDEzLCJleHAiOjE3MTU3Njg2MTN9.BPUnGdQ0IwyP70qVZiUqQ6vgU-vn0QUVtxQBEsO7Nmw"
+                "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDA4MWI4MzI4Y2MxZGRhMTRiNzFhYiIsImVtYWlsIjoib25lQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoidXNlcm9uZSIsImFjY291bnRUeXBlIjoiVXNlciIsIkFjY291bnRTdGF0dXMiOiIiLCJpc09uYm9hcmRlZCI6dHJ1ZSwiaWF0IjoxNzE1ODU4MTc0LCJleHAiOjE3MTU5NDQ1NzR9.pe5I21QHPnksnKCavHnrjIDiAtyDjLarJDsV2jmsIBo"
             };
-            const response = await post(url, newValues, customHeaders);
+            const response = await post(url, formData, customHeaders);
             if (response.success) {
                 setShowModal({
                     isVisible: true,
@@ -76,12 +92,15 @@ const OnboardingScreen = () => {
             return;
 
         } catch (error) {
-            setShowModal({
-                isVisible: true,
-                value: error.response.data.message,
-            })
-            setResult(null)
-            console.log("error", error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                setShowModal({
+                    isVisible: true,
+                    value: error.response.data.message,
+                });
+            } else {
+                // Handle cases where response or its properties are undefined
+                console.log("Unexpected error format:", error);
+            }
         }
     }
 
@@ -242,7 +261,7 @@ const OnboardingScreen = () => {
                                         data={result ? result?.securityQuestions : []}
                                         title="Security Question"
                                         selectedItem={values.securityQuestions?.question1}
-                                        handleSelect={(selectedItem) => setFieldValue('securityQuestions?.question1', selectedItem)}
+                                        handleSelect={(selectedItem) => setFieldValue('securityQuestions.question1', selectedItem.key)}
                                         error={errors.securityQuestions?.question1}
                                         touched={touched.securityQuestions?.question1}
                                         dropdownDirection="up"

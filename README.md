@@ -12,7 +12,7 @@ Navfinder is a revolutionary travel platform dedicated to streamlining travel lo
 
 
 ## Installation
-1. Clone the repository: `git clone [https://github.com/RDGems/Nav-Finder-Backend](https://github.com/Ashjha75/Nav-Finder-App)`
+1. Clone the repository: `git clone [https://github.com/Ashjha75/Nav-Finder-App](https://github.com/Ashjha75/Nav-Finder-App)`
 2. Navigate into the directory: `cd Nav-Finder-App`
 3. Install the dependencies: `npm install`
 4. Create a `.env` file in the root directory and fill values of env data present in .env-example.
@@ -20,7 +20,7 @@ Navfinder is a revolutionary travel platform dedicated to streamlining travel lo
 
 ## Usage
 1. Once the server is running, you can interact with the APP using aexpo go app or in iphone using camera app just scan the qr code.
-2. The base URL for all requests is `exp://192.168.1.8:8081.
+2. The base URL for all requests is `exp://192.168.1.8:8081`.
 
 ## Contributing
 Details on how to contribute to your project.

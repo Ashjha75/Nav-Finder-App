@@ -31,10 +31,24 @@ const OnboardingSchema = Yup.object().shape({
     }).required('Gender is required'),
     // AccountStatus: Yup.string().required('Account Status is required'),
     securityQuestions: Yup.object().shape({
-        question1: Yup.object().shape({
-            key: Yup.string().required('Security Question is required')
-        }).required('Security Question is required'),
+        question1:  Yup.string().required('Security Question is required'),
+        
         answer1: Yup.string().required('Security Answer is required'),
     }),
 });
-export { SignInSchema ,SignUpSchema,OnboardingSchema}
+const OtpSchema = Yup.object().shape({
+    otp: Yup.string()
+        .required('OTP is required')
+        .length(6, 'OTP should be 6 digits long')
+        .matches(/^[0-9]+$/, 'OTP should only contain digits')
+});
+const PasswordSchema = Yup.object().shape({
+    oldPassword: Yup.string()
+        .required('Old Password is required')
+        .min(8, 'Old Password should be at least 8 characters long'),
+    password: Yup.string()
+        .required('New Password is required')
+        .min(8, 'New Password should be at least 8 characters long')
+        .notOneOf([Yup.ref('oldPassword')], 'New Password should not be same as the Old Password')
+});
+export { SignInSchema ,SignUpSchema,OnboardingSchema,OtpSchema,PasswordSchema}

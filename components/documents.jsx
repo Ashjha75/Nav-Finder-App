@@ -9,11 +9,13 @@ import PickFile from './pickFile';
 import FormField from './FormField';
 import CustomButton from './customButton';
 import Loader from './loader';
+import { aadhaarcardValidationSchema,vehicleRegistrationValidationSchema,insuranceValidationSchema,vehiclePermitValidationSchema,driverPhotoValidationSchema, pancardValidationSchema } from '../utils/yup/yup-schemas';
 
 const Document = ({ document }) => {
+  const currentPageSchema=document.page==='aadhaarcard'?aadhaarcardValidationSchema:document.page==='pancard'?pancardValidationSchema:document.page==='vehicleRegistration'?vehicleRegistrationValidationSchema:document.page==='insurance'?insuranceValidationSchema:document.page==='vehiclePermit'?vehiclePermitValidationSchema:driverPhotoValidationSchema;
   const [showModal, setShowModal] = useState({});
   const [result, setResult] = useState(null);
-  const { loading, post } = useApi();
+  const { post } = useApi();
   const [currentDocument, setCurrentDocument] = useState(null);
   const backAction = () => {
     setShowModal({
@@ -97,22 +99,23 @@ const Document = ({ document }) => {
             <View className="w-full   ">
               <Text className="text-textcolor  mt-3 font-pregular text-left ">{currentDocument && currentDocument[0].content.split(/\s+/).join(' ')}</Text>
                 
-                <View>
                 <Formik
                   initialValues={{
                     documentType:'',
                     documentNumber:'',
-                    expiryDate:'',
+                    documentExpiryDate:'',
+                    documentOwnerName:'',
                     file: '',
                   }}
-                // validationSchema={OnboardingSchema}
-                // onSubmit={(values, { validateForm }) => {
-                //     validateForm(values).then((errors) => {
-                //         if (Object.keys(errors).length === 0) {
-                //             onboardUser(values); // Make the API call here
-                //         }
-                //     });
-                // }}
+                validationSchema={currentPageSchema}
+                onSubmit={(values, { validateForm }) => {
+                    validateForm(values).then((errors) => {
+                        if (Object.keys(errors).length === 0) {
+                            // onboardUser(values); // Make the API call here
+                            console.log(values)
+                        }
+                    });
+                }}
                 >
                   {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => {
                     return (
@@ -123,31 +126,31 @@ const Document = ({ document }) => {
                         }
                         {currentDocument && currentDocument[0].name ? (<FormField
                           title="Name"
-                          value={values.firstName}
-                          handleChangeText={handleChange('firstName')}
-                          handleBlur={handleBlur('firstName')}
-                          error={errors.firstName}
-                          touched={touched.firstName}
+                          value={values.documentOwnerName}
+                          handleChangeText={handleChange('documentOwnerName')}
+                          handleBlur={handleBlur('documentOwnerName')}
+                          error={errors.documentOwnerName}
+                          touched={touched.documentOwnerName}
                           keyboardType="default"
                           otherStyle="mt-4"
                         />) : (<></>)}
                         {currentDocument && currentDocument[0].idnumber ? (<FormField
                           title="Id Number"
-                          value={values.firstName}
-                          handleChangeText={handleChange('firstName')}
-                          handleBlur={handleBlur('firstName')}
-                          error={errors.firstName}
-                          touched={touched.firstName}
+                          value={values.documentNumber}
+                          handleChangeText={handleChange('documentNumber')}
+                          handleBlur={handleBlur('documentNumber')}
+                          error={errors.documentNumber}
+                          touched={touched.documentNumber}
                           keyboardType="default"
                           otherStyle="mt-4"
                         />) : (<></>)}
                         {currentDocument && currentDocument[0].expiry ? (<FormField
-                          title="Name"
-                          value={values.firstName}
-                          handleChangeText={handleChange('firstName')}
-                          handleBlur={handleBlur('firstName')}
-                          error={errors.firstName}
-                          touched={touched.firstName}
+                          title="Expiry Date"
+                          value={values.documentExpiryDate}
+                          handleChangeText={handleChange('documentExpiryDate')}
+                          handleBlur={handleBlur('documentExpiryDate')}
+                          error={errors.documentExpiryDate}
+                          touched={touched.documentExpiryDate}
                           keyboardType="default"
                           otherStyle="mt-4"
                         />) : (<></>)}
@@ -162,7 +165,6 @@ const Document = ({ document }) => {
                   }}
                 </Formik>
               </View>
-            </View>
           </ScrollView>) : (<Loader />)
       }
       {showModal.isVisible && <CustomModal data={showModal} />}

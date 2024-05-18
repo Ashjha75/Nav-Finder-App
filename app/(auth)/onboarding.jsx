@@ -11,11 +11,13 @@ import CustomModal from '../../components/customModal';
 import FormField from '../../components/FormField';
 import SelectFormField from '../../components/selectFormField';
 import PickFile from '../../components/pickFile';
+import { useGlobalContext } from '../../context/GlobalProvider';
 // import RNFetchBlob from 'rn-fetch-blob';
 const OnboardingScreen = () => {
     const [result, setResult] = useState(null)
     const { loading, post } = useApi();
     const [showModal, setShowModal] = useState({});
+    const { user} = useGlobalContext();
   
     useEffect(() => {
         ; (async () => {
@@ -23,7 +25,8 @@ const OnboardingScreen = () => {
                 const body = { lookups: ["genders", "securityQuestions"] }
                 setShowModal({
                     isVisible: false,
-                    value: ""
+                    value: "",
+                    type: "success"
                 })
                 const url = "/lookups";
                 const response = await post(url, body);
@@ -37,6 +40,7 @@ const OnboardingScreen = () => {
                     setShowModal({
                         isVisible: true,
                         value: error.response.data.message,
+                        type: 'error',
                     });
                 } else {
                     // Handle cases where response or its properties are undefined
@@ -48,54 +52,56 @@ const OnboardingScreen = () => {
 
     const onboardUser = async (values) => {
         let newValues = { ...values };
-        newValues.AccountStatus="Active"
         // Extract the key from gender
         if (newValues.gender && newValues.gender.key) {
             newValues.gender = newValues.gender.key;
         }
         let formData = new FormData();
-
+    
         // Append each property of newValues to formData
         for (let key in newValues) {
-            formData.append(key, newValues[key]);
-        }
-        for (let key in newValues) {
+
             if (key === 'file') {
-                // Append the file path directly to the FormData instance
-                formData.append(key, {
-                    uri: newValues[key].uri,
-                    type: newValues[key].mimeType,
-                    name: newValues[key].fileName,
-                });
+                // Append the file directly to the FormData instance
+                formData.append(key, newValues[key].uri, newValues[key].fileName);
+            } else if (typeof newValues[key] === 'object' && newValues[key] !== null) {
+                // Convert the object to a string before appending
+                formData.append(key, JSON.stringify(newValues[key]));
             } else {
                 formData.append(key, newValues[key]);
-            }
+            }  
         }
+    
         // Implement the API call here
         try {
             setShowModal({
                 isVisible: false,
-                value: ""
+                value: "",
+                type: "success"
             })
             const url = "/auth/onboarding";
             const customHeaders = {
-                'Content-Type': 'multipart/form-data',
-                "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDA4MWI4MzI4Y2MxZGRhMTRiNzFhYiIsImVtYWlsIjoib25lQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoidXNlcm9uZSIsImFjY291bnRUeXBlIjoiVXNlciIsIkFjY291bnRTdGF0dXMiOiIiLCJpc09uYm9hcmRlZCI6dHJ1ZSwiaWF0IjoxNzE1ODU4MTc0LCJleHAiOjE3MTU5NDQ1NzR9.pe5I21QHPnksnKCavHnrjIDiAtyDjLarJDsV2jmsIBo"
+                "Content-Type":"multipart/form-data",
+                "Authorization": `Bearer ${user.accessToken}`,
             };
-            const response = await post(url, formData, customHeaders);
-            if (response.success) {
-                setShowModal({
-                    isVisible: true,
-                    value: response.message,
-                })
-            }
-            return;
+            console.log(formData)
 
+            // const response = await post(url, formData, customHeaders);
+            // if (response && response.success) {
+            //     setShowModal({
+            //         isVisible: true,
+            //         value: response.message,
+            //         type: 'success',
+            //     })
+            // }
+            return;
+        
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
                 setShowModal({
                     isVisible: true,
                     value: error.response.data.message,
+                    type: 'error',
                 });
             } else {
                 // Handle cases where response or its properties are undefined
@@ -131,7 +137,7 @@ const OnboardingScreen = () => {
                                 },
                                 dob: '',
                                 gender: '',
-                                AccountStatus: '',
+                                AccountStatus: 'Active',
                                 securityQuestions: {
                                     question1: '',
                                     answer1: ''
@@ -157,7 +163,7 @@ const OnboardingScreen = () => {
                                         handleBlur={handleBlur('firstName')}
                                         error={errors.firstName}
                                         touched={touched.firstName}
-                                        keyboardType="default"
+                                        otherStyle="mt-4"                                        keyboardType="default"
                                     />
                                     <FormField
                                         title="Last Name"
@@ -245,7 +251,7 @@ const OnboardingScreen = () => {
                                         error={errors.address?.postalCode}
                                         touched={touched.address?.postalCode}
                                         otherStyle="mt-7"
-                                        keyboardType="default"
+                                        keyboardType="numeric"
                                     />
                                     <FormField
                                         title="Country"
@@ -284,7 +290,7 @@ const OnboardingScreen = () => {
                     </View>
                 </ScrollView>
             )}
-            <CustomModal data={showModal} />
+            {showModal.isVisible && <CustomModal data={showModal} />}
         </SafeAreaView>
     );
 };

@@ -6,10 +6,10 @@ import * as Location from 'expo-location';
 import { UserLocationContext } from '../context/userLocationContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-
 SplashScreen.preventAutoHideAsync();
-
+import { GlobalProvider } from '../context/GlobalProvider';
 const RootLayout = () => {
+    
     // access location of user
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
@@ -36,7 +36,8 @@ const RootLayout = () => {
             SplashScreen.hideAsync();
         }
     }, [fontsLoaded, error]);
-
+      
+      
     useEffect(() => {
         (async () => {
 
@@ -48,6 +49,7 @@ const RootLayout = () => {
 
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location.coords);
+            console.log(location.coords)
         })();
     }, []);
 
@@ -61,7 +63,7 @@ const RootLayout = () => {
         text = JSON.stringify(location);
     }
     return (
-        // <GlobalProvider>
+        <GlobalProvider>
         <UserLocationContext.Provider value={{ location, setLocation }}>
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <BottomSheetModalProvider>
@@ -73,7 +75,7 @@ const RootLayout = () => {
                     </Stack>
                 </BottomSheetModalProvider>
             </GestureHandlerRootView ></UserLocationContext.Provider>
-        // </GlobalProvider>
+        </GlobalProvider>
         // stack is a container that holds multiple screens similar to react fragments
     )
 }

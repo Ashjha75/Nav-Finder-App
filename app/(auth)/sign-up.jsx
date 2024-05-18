@@ -19,22 +19,29 @@ const [showModal, setShowModal] = useState({})
         try {
             setShowModal({
                 isVisible:false,
-                value:""
+                value:"",
+                type:"success"
             })
+            
             const url="/auth/signup";
             const response = await post(url, values);
+            console.log(response)
             if(response.success){
                 router.push("/home")
             }
             return response.data;
     
-        } catch (error) {
-            if(error.response.data.success== false){
-            setShowModal({
-                isVisible:true,
-                value:error.response.data.message,
-            })}
-            console.log("error",error.response.data.message);
+        }catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setShowModal({
+                    isVisible: true,
+                    value: error.response.data.message,
+                    type: 'error',
+                });
+            } else {
+                // Handle cases where response or its properties are undefined
+                console.log("Unexpected error format:", error);
+            }
         }
      }
 
@@ -103,7 +110,7 @@ const [showModal, setShowModal] = useState({})
                     </Formik>
                 </View>
             </ScrollView>
-         <CustomModal data={showModal}/>
+            {showModal.isVisible && <CustomModal data={showModal}/>}
             </>)
             }
         </SafeAreaView>

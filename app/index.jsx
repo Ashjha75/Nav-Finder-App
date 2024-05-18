@@ -4,8 +4,11 @@ import images from "../constants/images"
 import CustomButton from "../components/customButton";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useRef } from "react";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
+import { useGlobalContext } from "../context/GlobalProvider";
 export default function App() {
+  const { isLoading, isLoaggedIn } = useGlobalContext();
+  if (!isLoading && isLoaggedIn)  {return (<Redirect href="/home" />)}
   const slideAnim = useRef(new Animated.Value(-500)).current;  // Initial value for slide: -500
   const zoomAnim = useRef(new Animated.Value(0)).current;  // Initial value for slide: -500
 
@@ -47,7 +50,7 @@ export default function App() {
             <Text className="text-white font-uregular text-2xl mt-2 ">Navigate Your City with Ease and Comfort Today </Text>
           </Animated.View>
           <CustomButton title="Continue With Email"
-            handlePress={() => { router.push('/documentOptions') }}
+            handlePress={() => { router.push('/sign-in') }}
             containerStyle="mt-10 w-full font-umedium"
             showImage={true}
           />

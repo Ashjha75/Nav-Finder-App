@@ -5,15 +5,15 @@ import CustomButton from './customButton';
 import icons from '../constants/icons';
 
 const CustomModal = forwardRef(({ data }, ref) => {
-  const { isVisible, value, type, confirm, cancel } = data;
-
+  const { isVisible, value, type, confirm, cancel,showConfirm } = data;
+console.log(data)
   const bottomSheetModalRef = useRef(null);
 
   const snapPoints = useMemo(() => {
     if (value === '') return ['36%'];
-    if (value.length > 50) return ['46%'];
-    if (value.length <= 50 && value.length > 30) return ['36%'];
-    if (value.length <= 30 && value.length > 20) return ['30%'];
+    if (value.length > 50) return ['50%'];
+    if (value.length <= 30 && value.length > 20) return ['40%'];
+    else return ['30%'];
   }, [value]);
 
   useEffect(() => {
@@ -23,6 +23,9 @@ const CustomModal = forwardRef(({ data }, ref) => {
       bottomSheetModalRef.current.dismiss();
     }
   }, [isVisible]);
+  handleCancel=()=>{
+    bottomSheetModalRef.current.dismiss()
+  }
 
   return (
     <BottomSheetModal
@@ -47,10 +50,10 @@ const CustomModal = forwardRef(({ data }, ref) => {
         <View className="flex-row justify-center items-center mt-1 pl-2">
           <Text className="text-white text-2xl text-left font-pregular">{value}</Text>
         </View>
-        {type !== 'error' && (
-          <CustomButton title="Confirm" handlePress={confirm || console.log("success")} containerStyle="mt-8 mx-3" textStyles="font-" />
+        {showConfirm  && (
+          <CustomButton title="Confirm" handlePress={confirm} containerStyle="mt-8 mx-3" textStyles="font-pmeduim" />
         )}
-        <CustomButton title="Cancel" handlePress={cancel || bottomSheetModalRef.current.dismiss()} containerStyle="mt-4 mx-3 bg-[#1e5546]" textStyles="text-white font-pmedium" />
+        <CustomButton title="Cancel" handlePress={cancel?cancel:()=>handleCancel()} containerStyle="mt-4 mx-3 bg-[#1e5546]" textStyles="text-white font-pmedium" />
       </BottomSheetView>
     </BottomSheetModal>
   );

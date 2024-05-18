@@ -51,4 +51,49 @@ const PasswordSchema = Yup.object().shape({
         .min(8, 'New Password should be at least 8 characters long')
         .notOneOf([Yup.ref('oldPassword')], 'New Password should not be same as the Old Password')
 });
-export { SignInSchema ,SignUpSchema,OnboardingSchema,OtpSchema,PasswordSchema}
+const aadhaarcardValidationSchema = Yup.object().shape({
+    documentNumber: Yup.string()
+      .required('Document Number is required'),
+    file: Yup.mixed()
+      .required('A file is required'),
+  });
+const pancardValidationSchema = Yup.object().shape({
+    documentNumber: Yup.string()
+      .required('Document Number is required'),
+    file: Yup.mixed()
+      .required('A file is required'),
+  });
+const vehicleRegistrationValidationSchema = Yup.object().shape({
+    documentNumber: Yup.string()
+      .required('Document Number is required'),
+    documentOwnerName: Yup.string()
+      .required('Document Owner Name is required'),
+    file: Yup.mixed()
+      .required('A file is required'),
+  });
+const insuranceValidationSchema = Yup.object().shape({
+    documentNumber: Yup.string()
+      .required('Document Number is required'),
+    documentExpiryDate: Yup.date()
+      .required('Document Expiry Date is required'),
+    documentOwnerName: Yup.string()
+      .required('Document Owner Name is required'),
+    file: Yup.mixed()
+      .required('A file is required'),
+  });
+const vehiclePermitValidationSchema = Yup.object().shape({
+    documentNumber: Yup.string()
+      .required('Document Number is required'),
+    documentOwnerName: Yup.string()
+      .required('Document Owner Name is required'),
+    file: Yup.mixed()
+      .required('A file is required'),
+  });
+const driverPhotoValidationSchema = Yup.object().shape({
+    file: Yup.mixed()
+      .required('A file is required'),
+  });
+const forgotPasswordSchema = Yup.object().shape({
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  });
+export { SignInSchema ,SignUpSchema,OnboardingSchema,OtpSchema,PasswordSchema,aadhaarcardValidationSchema,pancardValidationSchema,vehicleRegistrationValidationSchema,insuranceValidationSchema,vehiclePermitValidationSchema,driverPhotoValidationSchema,forgotPasswordSchema}

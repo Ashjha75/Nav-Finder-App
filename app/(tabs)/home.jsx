@@ -1,5 +1,5 @@
 import { View, Text, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import icons from '../../constants/icons'
 import VehicleOptions from '../../components/vehicleoptions'
@@ -7,6 +7,7 @@ import { Link, router } from 'expo-router'
 import SlideCards from '../../components/slideCards'
 
 const Home = () => {
+  
 
   return (
     <SafeAreaView className="bg-primary h-full w-full">

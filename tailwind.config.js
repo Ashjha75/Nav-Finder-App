@@ -9,6 +9,7 @@ module.exports = {
         gray: "#aaa",
         lightGreen: "#383838",
         darkgray: "#424242",
+        textcolor: '#d8d7d6'
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],

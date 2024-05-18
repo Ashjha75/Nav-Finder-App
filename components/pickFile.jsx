@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import images from '../constants/images'
 
-const PickFile = ({ title, value, handleBlur,handleChange, error, touched, otherStyle,setFieldValue }) => {
+const PickFile = ({ title, value, handleBlur,handleChange, error, touched, otherStyle,setFieldValue,imageStyle }) => {
     const [imageUri, setImageUri] = useState(null)
     const openPicker = async (selectType) => {
         try {
@@ -36,10 +36,10 @@ const PickFile = ({ title, value, handleBlur,handleChange, error, touched, other
      touched={touched}
     onPress={() => openPicker("Image",setFieldValue)} className="">
        
-        <View className="w-full h-24 px-4  border-2 border-[#212121] rounded-2xl focus:border-[#909191] items-center justify-center flex-col">
+        <View className={`w-full h-24 px-4  border-2 border-[#212121] rounded-2xl focus:border-[#909191] items-center justify-center flex-col ${otherStyle}`}>
             {
                 imageUri?(
-                    <Image source={{ uri:imageUri }} className="w-full  h-20 rounded-2xl " useNativeControls resizeMode="conatin" isLooping />  
+                    <Image source={{ uri:imageUri }} className={`w-full  h-20 rounded-2xl ${imageStyle}`} useNativeControls resizeMode="conatin" isLooping />  
                 ):(
                     <>
                     <Image source={images.upload} resizeMode='contain' className="h-8 w-8" />

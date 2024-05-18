@@ -90,15 +90,19 @@ const DocumentOptions = () => {
 
                     </View>
                     {result && result.documents.map((item) => {
-                        return (<TouchableOpacity onPress={()=>setDocument({'page':item.key})} activeOpacity={0.7} key={item.key} className="my-3 rounded-xl h-[80px] flex-row justify-center items-center mx-4 border-2 border-white ">
-                            <Text className="w-[80%] text-secondary text-ubold text-lg">{item.value}</Text>
+                        return (<TouchableOpacity onPress={() => setDocument({ 'page': item.key })} activeOpacity={0.7} key={item.key} className="my-3 rounded-xl h-[80px] flex-row justify-center items-center mx-4 border-2 border-white ">
+                           <View className="flex-col w-[80%]">
+                           <Text className=" text-secondary text-ubold text-lg">{item.value}</Text>
+                           {item.key=='aadhaarcard' &&  <Text className="text-blue-400 font-pregular text-xs mt-2 ">Recommended Next Steps</Text>}
+
+                           </View>
                             <View><Image source={images.rightArrow} className="w-8 h-8" /></View>
                         </TouchableOpacity>)
                     })}
                 </ScrollView>
             )}
-            {document ? <Document document={document} />:''}
-            <CustomModal data={showModal} />
+            {document ? <Document document={document} /> : ''}
+            {showModal.isVisible && <CustomModal data={showModal} />}
         </SafeAreaView>
     );
 };

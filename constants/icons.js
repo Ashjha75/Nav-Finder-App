@@ -27,6 +27,7 @@ import user from "../assets/icons/user.png";
 import email from "../assets/icons/email.png";
 import check from "../assets/icons/check.png";
 import xmark from "../assets/icons/xmark.png";
+import info from "../assets/icons/info.png"
 
 
 export default {
@@ -59,4 +60,5 @@ export default {
     email,
     xmark,
     check,
+    info,
 };

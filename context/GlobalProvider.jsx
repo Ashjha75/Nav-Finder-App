@@ -2,7 +2,6 @@ import { useState, useContext, useEffect, createContext } from 'react'
 import * as SecureStore from 'expo-secure-store';
 const GlobalContext = createContext();
 import useApi from '../utils/services/baseservice';
-import { router } from 'expo-router';
 const useGlobalContext = () => useContext(GlobalContext);
 const GlobalProvider = ({ children }) => {
     const { get } = useApi();
@@ -23,7 +22,6 @@ const GlobalProvider = ({ children }) => {
                 },
               });
               if (response.success) {
-                router.push("/sign-in");
                 response.data.accessToken=token;
                 setUser(response.data);
                 setIsLoaggedIn(true);

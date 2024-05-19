@@ -3,7 +3,7 @@ import { Stack, SplashScreen } from 'expo-router'
 import { useFonts } from 'expo-font'
 // import { GlobalProvider } from '../context/GlobalProvider';
 import * as Location from 'expo-location';
-import { UserLocationContext } from '../context/userLocationContext';
+import { LocationProvider } from '../context/userLocationContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 SplashScreen.preventAutoHideAsync();
@@ -49,7 +49,6 @@ const RootLayout = () => {
 
             let location = await Location.getCurrentPositionAsync({});
             setLocation(location.coords);
-            console.log(location.coords)
         })();
     }, []);
 
@@ -64,7 +63,7 @@ const RootLayout = () => {
     }
     return (
         <GlobalProvider>
-        <UserLocationContext.Provider value={{ location, setLocation }}>
+        <LocationProvider>
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <BottomSheetModalProvider>
                     <Stack>
@@ -74,7 +73,7 @@ const RootLayout = () => {
                         <Stack.Screen name='(screen)' options={{ headerShown: false }} />
                     </Stack>
                 </BottomSheetModalProvider>
-            </GestureHandlerRootView ></UserLocationContext.Provider>
+            </GestureHandlerRootView ></LocationProvider>
         </GlobalProvider>
         // stack is a container that holds multiple screens similar to react fragments
     )

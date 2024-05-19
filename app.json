@@ -23,7 +23,12 @@
         "foregroundImage": "./assets/images/OIG2.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ashishjha75.navfinder"
+      "package": "com.ashishjha75.navfinder",
+      "config":{
+        "googleMaps":{
+          "apiKey":"YOUR_API_KEY"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

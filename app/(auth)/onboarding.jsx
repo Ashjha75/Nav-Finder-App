@@ -12,12 +12,13 @@ import FormField from '../../components/FormField';
 import SelectFormField from '../../components/selectFormField';
 import PickFile from '../../components/pickFile';
 import { useGlobalContext } from '../../context/GlobalProvider';
+import { router } from 'expo-router';
 // import RNFetchBlob from 'rn-fetch-blob';
 const OnboardingScreen = () => {
     const [result, setResult] = useState(null)
     const { loading, post } = useApi();
     const [showModal, setShowModal] = useState({});
-    const { user} = useGlobalContext();
+    const { user,setUser} = useGlobalContext();
   
     useEffect(() => {
         ; (async () => {
@@ -63,7 +64,11 @@ const OnboardingScreen = () => {
 
             if (key === 'file') {
                 // Append the file directly to the FormData instance
-                formData.append(key, newValues[key].uri, newValues[key].fileName);
+                formData.append(key, {
+                    uri: newValues[key].uri,
+                    type: newValues[key].mimeType, // Ensure this matches the image type
+                    name: newValues[key].fileName
+                });
             } else if (typeof newValues[key] === 'object' && newValues[key] !== null) {
                 // Convert the object to a string before appending
                 formData.append(key, JSON.stringify(newValues[key]));
@@ -86,16 +91,17 @@ const OnboardingScreen = () => {
             };
             console.log(formData)
 
-            // const response = await post(url, formData, customHeaders);
-            // if (response && response.success) {
-            //     setShowModal({
-            //         isVisible: true,
-            //         value: response.message,
-            //         type: 'success',
-            //     })
-            // }
-            return;
-        
+            const response = await post(url, formData, customHeaders);
+            if (response && response.success) {
+                setShowModal({
+                    isVisible: true,
+                    value: response.message,
+                    type: 'success',
+                })
+                setUser(response.data)
+                router.push("/home")
+            }
+        return
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
                 setShowModal({

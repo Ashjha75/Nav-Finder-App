@@ -18,7 +18,7 @@ const MapBottomSheet = ({ onSnapPointChange }) => {
         bottomSheetRef.current.snapToIndex(1);
     }, []);
 
-    const snapPoints = useMemo(() => ['35%', '90%'], []);
+    const snapPoints = useMemo(() => ['35%', '70%'], []);
     return (
 
         <BottomSheet
@@ -41,7 +41,7 @@ const MapBottomSheet = ({ onSnapPointChange }) => {
                             <View className="  text-white  w-[80%] h-12 flex justify-center  font-ubold text-xl  px-4"><Text className="text-[#bdbdbd]  font-ubold text-lg ">Search</Text></View>
                             <Image source={icons.search} className="w-4 h-4 left-6" resizeMode='contain' />
                         </TouchableOpacity>
-                        <CustomButton title="Confirm Destination" containerStyle="mt-5 w-[92%]" /></>)
+                        <CustomButton title="Confirm Destination" containerStyle="mt-5 w-[92%]" handlePress={handleButtonClick} /></>)
                 }
 
             </BottomSheetView>

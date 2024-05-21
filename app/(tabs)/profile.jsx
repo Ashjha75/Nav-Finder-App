@@ -13,7 +13,7 @@ import * as SecureStore from 'expo-secure-store';
 import Loader from '../../components/loader'
 const Profile = () => {
     const { post } = useApi();
-    const { user} = useGlobalContext();
+    const { user,setUser} = useGlobalContext();
     const [showModal, setShowModal] = useState(false);
     const signOutUser = async () => {
         try {
@@ -24,6 +24,7 @@ const Profile = () => {
             const response = await post(url, {}, customHeaders);
             if (response.success) {
                 await SecureStore.deleteItemAsync('accessToken');
+                setUser(null)
                 console.log(await SecureStore.getItemAsync('accessToken'))
                 router.replace('/sign-in')
             }

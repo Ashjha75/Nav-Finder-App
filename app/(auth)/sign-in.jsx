@@ -29,7 +29,7 @@ const SignIn = () => {
                     router.replace("/home")
                 }
                 else{
-                router.push("/onboarding")
+                router.replace("/onboarding")
                 }
             }
             return response.data;

@@ -1,12 +1,55 @@
 import { View, Text, TextInput, Image, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import icons from '../../constants/icons'
 import VehicleOptions from '../../components/vehicleoptions'
 import { Link, router } from 'expo-router'
 import SlideCards from '../../components/slideCards'
-
+import * as SecureStore from 'expo-secure-store'
+import { useGlobalContext } from '../../context/GlobalProvider'
+import useApi from '../../utils/services/baseservice'
 const Home = () => {
+  const { user, setUser } = useGlobalContext();
+  const { get } = useApi();
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState({})
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+          const token = await SecureStore.getItemAsync('accessToken');
+          if (token) {
+            setLoading(true)
+              const url = "/auth/getCurrentUser";
+              const response = await get(url, {
+                  headers: {
+                      Authorization: `Bearer ${token}`,
+                  },
+              });
+              if (response.success) {
+                console.log(response.data)
+                  response.data.accessToken = token;
+                  setUser(response.data)
+              }
+          }
+          else{
+            setLoading(false);
+            setShowModal({
+              isVisible: true,
+              value: "Please login to continue",
+              type: 'info',
+          });
+              router.replace('/sign-in');
+          }
+      }
+      catch (error) {
+          console.log(error)
+          setLoading(false)
+      }
+  
+  };
+  fetchUser();
+}, [])
   
 
   return (

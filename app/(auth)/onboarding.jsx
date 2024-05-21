@@ -13,7 +13,6 @@ import SelectFormField from '../../components/selectFormField';
 import PickFile from '../../components/pickFile';
 import { useGlobalContext } from '../../context/GlobalProvider';
 import { router } from 'expo-router';
-// import RNFetchBlob from 'rn-fetch-blob';
 const OnboardingScreen = () => {
     const [result, setResult] = useState(null)
     const { loading, post } = useApi();

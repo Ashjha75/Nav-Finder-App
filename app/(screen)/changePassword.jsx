@@ -10,7 +10,6 @@ import Loader from '../../components/loader';
 import CustomModal from '../../components/customModal';
 import FormField from '../../components/FormField';
 import { Link, router } from 'expo-router';
-// import RNFetchBlob from 'rn-fetch-blob';
 const ForgotPassword = () => {
     const [result, setResult] = useState(null)
     const { loading, post } = useApi();

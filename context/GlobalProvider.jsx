@@ -2,6 +2,7 @@ import { useState, useContext, useEffect, createContext } from 'react'
 import * as SecureStore from 'expo-secure-store';
 const GlobalContext = createContext();
 import useApi from '../utils/services/baseservice';
+import { router } from 'expo-router';
 const useGlobalContext = () => useContext(GlobalContext);
 const GlobalProvider = ({ children }) => {
     const { get } = useApi();
@@ -13,7 +14,6 @@ const GlobalProvider = ({ children }) => {
         // check if user is logged in
         const fetchUser = async () => {
             try{const token = await SecureStore.getItemAsync('accessToken');
-            console.log(token)
             if (token) {
               const url = "/auth/getCurrentUser"; 
               const response = await get(url, {
@@ -25,6 +25,7 @@ const GlobalProvider = ({ children }) => {
                 response.data.accessToken=token;
                 setUser(response.data);
                 setIsLoaggedIn(true);
+                router.replace("/home")
               }
             }}
             catch(error){

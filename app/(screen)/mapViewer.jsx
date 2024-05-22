@@ -72,7 +72,7 @@ const MapViewer = () => {
                     <MapViewDirections
                         origin={fromLocation}
                         destination={toLocation}
-                        apikey="AIzaSyAmklv2wjfdYvXPvGnoTo6LcDlZ2Ix3JgU"
+                        apikey="YOUR_API_KEY"
                         strokeWidth={3}
                         strokeColor="white"
 

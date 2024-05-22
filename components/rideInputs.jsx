@@ -59,7 +59,7 @@ const RideInputs = () => {
       const getDistanceAndDuration = async (fromLocation, toLocation) => {
         const from = `${fromLocation.latitude},${fromLocation.longitude}`;
         const to = `${toLocation.latitude},${toLocation.longitude}`;
-        const response = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${from}&destinations=${to}&key=AIzaSyAmklv2wjfdYvXPvGnoTo6LcDlZ2Ix3JgU`);
+        const response = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${from}&destinations=${to}&key=YOUR_API_KEY`);
         const data = response.data;
         const distance = data.rows[0].elements[0].distance.text;
         const duration = data.rows[0].elements[0].duration.text;
@@ -122,7 +122,7 @@ const RideInputs = () => {
                     setFromLocation({latitude:details.geometry.location.lat,longitude:details.geometry.location.lng})
                 }}
                 query={{
-                    key: 'AIzaSyAmklv2wjfdYvXPvGnoTo6LcDlZ2Ix3JgU',
+                    key: 'YOUR_API_KEY',
                     language: 'en',
                     components: 'country:in',
                 }}
@@ -181,7 +181,7 @@ const RideInputs = () => {
                     console.log(textinputValid)
                 }}
                 query={{
-                    key: 'AIzaSyAmklv2wjfdYvXPvGnoTo6LcDlZ2Ix3JgU',
+                    key: 'YOUR_API_KEY',
                     language: 'en',
                     components: 'country:in',
                 }}

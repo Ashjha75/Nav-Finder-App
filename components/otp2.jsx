@@ -4,27 +4,27 @@ import images from '../../constants/images';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '../../components/customButton';
 import { Formik } from 'formik';
-import { forgotPasswordSchema } from '../../utils/yup/yup-schemas';
+import { Otp2Schema } from '../../utils/yup/yup-schemas';
 import useApi from '../../utils/services/baseservice';
 import Loader from '../../components/loader';
 import CustomModal from '../../components/customModal';
 import FormField from '../../components/FormField';
 import { Link, router } from 'expo-router';
 import Otp from '../../components/otp';
-const ForgotPassword = () => {
+const Otp2 = () => {
     const { loading, post } = useApi();
     const [showModal, setShowModal] = useState({});
     const [otp, setOtp] = useState(null);
 
 
-    const forgotPassword = async (values) => {
+    const Otp2 = async (values) => {
         try {
             setShowModal({
                 isVisible:false,
                 value:"",
                 type:"success"
             })
-            const url = "/auth/forgotPassword";
+            const url = "/auth/Otp2";
             const response = await post(url, values);
             if (response.success) {
                 setShowModal({
@@ -70,11 +70,11 @@ const ForgotPassword = () => {
                             initialValues={{
                                 email: ""
                             }}
-                            validationSchema={forgotPasswordSchema}
+                            validationSchema={Otp2Schema}
                             onSubmit={(values, { validateForm }) => {
                                 validateForm(values).then((errors) => {
                                     if (errors && Object.keys(errors).length === 0) {
-                                        forgotPassword(values); // Make the API call here
+                                        Otp2(values); // Make the API call here
                                     }
                                 });
                             }}
@@ -115,4 +115,4 @@ const ForgotPassword = () => {
     );
 };
 
-export default ForgotPassword;
+export default Otp2;

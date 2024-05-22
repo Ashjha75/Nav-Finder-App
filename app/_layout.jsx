@@ -8,8 +8,10 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 SplashScreen.preventAutoHideAsync();
 import { GlobalProvider } from '../context/GlobalProvider';
+import { ToastProvider } from 'react-native-toast-notifications';
+import { SafeAreaView } from 'react-native';
 const RootLayout = () => {
-    
+
     // access location of user
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
@@ -36,8 +38,8 @@ const RootLayout = () => {
             SplashScreen.hideAsync();
         }
     }, [fontsLoaded, error]);
-      
-      
+
+
     useEffect(() => {
         (async () => {
 
@@ -62,19 +64,21 @@ const RootLayout = () => {
         text = JSON.stringify(location);
     }
     return (
-        <GlobalProvider>
-        <LocationProvider>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-                <BottomSheetModalProvider>
-                    <Stack>
-                        <Stack.Screen name='index' options={{ headerShown: false }} />
-                        <Stack.Screen name='(auth)' options={{ headerShown: false }} />
-                        <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
-                        <Stack.Screen name='(screen)' options={{ headerShown: false }} />
-                    </Stack>
-                </BottomSheetModalProvider>
-            </GestureHandlerRootView ></LocationProvider>
-        </GlobalProvider>
+            <GlobalProvider>
+                <LocationProvider>
+                    <GestureHandlerRootView style={{ flex: 1 }}>
+                        <ToastProvider>
+                            <BottomSheetModalProvider>
+                                <Stack>
+                                    <Stack.Screen name='index' options={{ headerShown: false }} />
+                                    <Stack.Screen name='(auth)' options={{ headerShown: false }} />
+                                    <Stack.Screen name='(tabs)' options={{ headerShown: false }} />
+                                    <Stack.Screen name='(screen)' options={{ headerShown: false }} />
+                                </Stack>
+                            </BottomSheetModalProvider>
+                        </ToastProvider>
+                    </GestureHandlerRootView ></LocationProvider>
+            </GlobalProvider>
         // stack is a container that holds multiple screens similar to react fragments
     )
 }

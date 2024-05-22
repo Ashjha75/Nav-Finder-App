@@ -1,45 +1,66 @@
-import { View, Text, Image, TouchableOpacity, TextInput, Keyboard } from 'react-native'
+import { View, Text, Image, TouchableOpacity, TextInput, Keyboard, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import images from '../constants/images'
-import { router } from 'expo-router'
 import icons from '../constants/icons'
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { useLocation } from '../context/userLocationContext'
-import CustomButton from './customButton'
-import axios from 'axios'
 import useApi from '../utils/services/baseservice'
 import { useGlobalContext } from '../context/GlobalProvider'
+import { ScrollView } from 'react-native-gesture-handler'
+import CustomButton from './customButton'
+import Loader from './loader'
+import { useToast } from 'react-native-toast-notifications'
+import { router } from 'expo-router'
 // import {location } from "../context/userLocationContext";
-const BottomRideOptions = ({distance,time,back}) => {
-    console.log(distance.split(" km")[0],time)
-    const [result, setResult] = useState(null)
+const BottomRideOptions = ({ distance, time, back ,reset}) => {
+    const toast = useToast();
+  
+    const { fromLocation,toLocation,setToLocation,setFromLocation } = useLocation();
     const { loading, post } = useApi();
+    const { user, setUser } = useGlobalContext();
+    const [result, setResult] = useState(null)
     const [showModal, setShowModal] = useState({});
-    const { user,setUser} = useGlobalContext();
+    const [document, setDocument] = useState({});
+    const [reqbody,setReqbody]=useState()
     useEffect(() => {
         ; (async () => {
             try {
-                const body ={
-                    "distance": 10.5,
-                    "travelTime": 30
-                  }
+                const body = {
+                    distance: Number(distance.split(" km")[0].replace(',', '')),
+                    travelTime: Number(time)
+                }
                 setShowModal({
                     isVisible: false,
                     value: "",
                     type: "success"
-                }) ;
+                });
                 const customHeaders = {
-                    "Content-Type":"multipart/form-data",
+                    "Content-Type": "application/json",
                     "Authorization": `Bearer ${user.accessToken}`,
                 };
                 const url = "/finder/getAfterLocation";
-                const response = await post(url, body,customHeaders);
-              console.log(response)
+                const response = await post(url, body, customHeaders);
+                setResult(response.data)
+                setDocument(response.data[0])
+               setReqbody({
+                distance: Number(distance.split(" km")[0].replace(',', '')),
+                duration: Number(time),
+                pickupLocation: {
+                    type: "Point",
+                    coordinates: [fromLocation.longitude, fromLocation.latitude]
+                },
+                dropoffLocation: {
+                    type: "Point",
+                    coordinates: [toLocation.longitude, toLocation.latitude]
+                },
+                vehicleType: response.data[0].vehicleType,
+                estimatedFare: response.data[0].totalFare,
+                paymentMethod: "credit_card",
+            })
                 return;
 
             } catch (error) {
                 if (error.response && error.response.data && error.response.data.message) {
-                   
+
                     setShowModal({
                         isVisible: true,
                         value: error.response.data.message,
@@ -51,35 +72,47 @@ const BottomRideOptions = ({distance,time,back}) => {
                 }
             }
         })()
-    }, [distance,time])
-    const { location, setLocation, fromLocation, setFromLocation, toLocation, setToLocation } = useLocation();
-    const [textinputValid, setTextinputValid] = useState({
-        to: false,
-        from: false
-    })
-    const [keyboardOpen, setKeyboardOpen] = useState(false);
-    // console.log("ride",location)
-    const homePlace = {
-        description: 'Home',
-        geometry: { location: { lat: 48.8152937, lng: 2.4597668 } },
-      };
-      const workPlace = {
-        description: 'Work',
-        geometry: { location: { lat: 48.8496818, lng: 2.2940881 } },
-      };
-      const mapviewHandler =()=>{
-        if(fromLocation != null && toLocation!=null){
-            router.push("/mapViewer")
-        }
-        else{
-            return
-        }
+    }, [distance, time])
+const handleBook=async ()=>{
+   try {
+    const body = reqbody;
+    setShowModal({
+        isVisible: false,
+        value: "",
+        type: "success"
+    });
+    // showToast()
+    // return
+    const customHeaders = {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${user.accessToken}`,
+    };
+    const url = "/finder/bookRide";
+    const response = await post(url, body, customHeaders);
+    console.log(response.success)
+    if(response.success){
+        router.push("/activity")
+        reset()
       }
-    
-    
+    return;
+
+} catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+
+        setShowModal({
+            isVisible: true,
+            value: error.response.data.message,
+            type: 'error',
+        });
+    } else {
+        // Handle cases where response or its properties are undefined
+        console.log("Unexpected error format:", error);
+    }
+}
+        }    
     return (
         <View className="w-full h-full px-3">
-            <View className="flex-row   "><TouchableOpacity onPress={() => back()}><Image source={images.rightArrow} className="w-7 h-7 rotate-180" /></TouchableOpacity>
+            <View className="flex-row   "><TouchableOpacity onPress={() => reset()}><Image source={images.rightArrow} className="w-7 h-7 rotate-180" /></TouchableOpacity>
                 <Text className="text-textcolor text-base font-ubold w-[80%]  text-center">Prices are lower than usual</Text>
             </View>
             <View className="w-full mt-2 mb-1 h-14 justify-start gap-x-1  flex-row ">
@@ -96,27 +129,36 @@ const BottomRideOptions = ({distance,time,back}) => {
                     </View>
                 </TouchableOpacity>
             </View>
-            
-              
-            
-           {/* <TouchableOpacity onPress={() => router.push("/mapViewer")} className="px-5  border-b-[1px] border-darkgray py-1 items-center flex-row">
-                <View className=" w-7 h-7 rounded-full justify-center items-center flex-row">
-                    <Image source={icons.location} className="w-5 h-5 " resizeMode="contain" />
-                </View>
-                <View className="mx-3">
-                    <Text className="text-sm font-ubold text-white">Ghaziabad</Text>
-                    <Text className="text-xs text-zinc-300">Uttar Pradesh</Text>
-                </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push("/mapViewer")} className="px-5  border-b-[1px] border-darkgray py-1 items-center flex-row">
-                <View className=" w-7 h-7 rounded-full justify-center items-center flex-row">
-                    <Image source={icons.location} className="w-5 h-5 " resizeMode="contain" />
-                </View>
-                <View className="mx-3">
-                    <Text className="text-sm font-ubold text-white">Delhi</Text>
-                    <Text className="text-xs text-zinc-300">Dilshad Garden</Text>
-                </View>
-            </TouchableOpacity> */}
+            {
+                result ?
+                    (<ScrollView className="w-full h-52">
+                        {
+                            result.map((item) => {
+                                return (
+                                    <TouchableOpacity key={item.vehicleType} onPress={() => {setDocument(item);setReqbody((prev)=>({
+                                        ...prev,
+                                        vehicleType:item.vehicleType,
+                                        estimatedFare:item.totalFare,
+                                    }));}} activeOpacity={0.7} className={`my-1 rounded-2xl h-[90px] flex-row justify-center items-center mx-1 border-2 ${item.vehicleType == document.vehicleType ? "border-white" : ''} `}>
+                                        <Image source={images[item.image]} className={`w-24 mr-2 h-24 ${item.vehicleType == "Shuttle Bus" || item.vehicleType == "Packages" ? 'w-16 h-16' : ''}`} resizeMode='contain' />
+                                        <View className="flex-col w-[46%]">
+                                            <View className="flex-row justify-left items-center">
+                                                <Text className=" text-secondary text-ubold text-lg">{item.vehicleType}</Text>
+                                                <Image source={icons.user} className="w-3 h-3 ml-2" /><Text className=" text-secondary text-xs">{item.person}</Text>
+                                            </View>
+                                            <Text className=" text-secondary text-pregular text-sm">{item.away} mins away</Text>
+                                            <Text className=" text-stone-400 text-pregular text-xs">{item.title}</Text>
+                                        </View>
+                                        <Text className="w-[26%]   text-white font-bold text-lg text-center">₹{item.totalFare}</Text>
+                                    </TouchableOpacity>
+                                )
+                            })
+                        }
+                    </ScrollView>) : (<Loader />)
+            }
+            <View className="w-full h-fit flex-row justify-center my-2 py-2 items-center">
+                <CustomButton title="Book Now" containerStyle="w-[90%] h-12 my-2" handlePress={()=>handleBook()} />
+            </View>
         </View>
     )
 }

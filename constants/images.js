@@ -4,6 +4,7 @@ import earnerIllustra from "../assets/images/earnerIllustra.png";
 import logo from "../assets/images/OIG2.png";
 import uberX from "../assets/images/uberX.png";
 import uberXL from "../assets/images/uberXL.png";
+import uberGo from "../assets/images/uberGo.png";
 import uberP from "../assets/images/uberP.png";
 import bus from "../assets/images/bus.png";
 import rickshaw from "../assets/images/rickshaw.png";
@@ -33,5 +34,5 @@ import leaf from "../assets/images/leaf.png";
 import bars from "../assets/images/bars.png";
 import upload from "../assets/images/folder-upload.png";
 export default {
-    rightArrow, rightArrow2, earnerIllustra, logo, uberX, uberXL, uberP, bus, rickshaw, bike, schedule, restaurant, parsel, car, pin, focus, briefcase, groupRide, yourschdeule, shuttlebus, scheduletime, promo, ondemand, space, user, lifesaver, wallet, activity, promos, graph, clipBoard, leaf, bars,upload,
+    rightArrow, rightArrow2, earnerIllustra, logo, uberX, uberXL, uberGo,uberP, bus, rickshaw, bike, schedule, restaurant, parsel, car, pin, focus, briefcase, groupRide, yourschdeule, shuttlebus, scheduletime, promo, ondemand, space, user, lifesaver, wallet, activity, promos, graph, clipBoard, leaf, bars,upload,
 }

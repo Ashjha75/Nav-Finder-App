@@ -1,11 +1,28 @@
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import images from '../../constants/images'
+import { useToast } from 'react-native-toast-notifications'
 
 const Activity = () => {
+    const toast = useToast();
+    const showToast = () => {
+        toast.show('Ride Booked successfully', {
+          type: 'success',
+          placement: '',
+          duration: 4000,
+          offsetTop:1000,
+          animationType: 'slide-in',
+        });
+      };
+      useEffect(() => {
+        console.log("Activity")
+        
+      }, [])
+      
     return (
         <SafeAreaView className="w-full h-full bg-primary px-3">
+            {showToast()}
             <ScrollView>
                 <View className="w-full h-10 mt-5 "><Text className="text-3xl  font-bold text-white">Activity</Text></View>
                 <View >

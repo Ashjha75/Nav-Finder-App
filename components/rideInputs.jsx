@@ -59,7 +59,7 @@ const RideInputs = () => {
       const getDistanceAndDuration = async (fromLocation, toLocation) => {
         const from = `${fromLocation.latitude},${fromLocation.longitude}`;
         const to = `${toLocation.latitude},${toLocation.longitude}`;
-        const response = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${from}&destinations=${to}&key=YOUR_API_KEY`);
+        const response = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${from}&destinations=${to}&key=AIzaSyAmklv2wjfdYvXPvGnoTo6LcDlZ2Ix3JgU`);
         const data = response.data;
         const distance = data.rows[0].elements[0].distance.text;
         const duration = data.rows[0].elements[0].duration.text;
@@ -78,6 +78,11 @@ const RideInputs = () => {
             show:false
         })
       };
+      const resetRide=()=>{
+        setRideBook(null)
+        setToLocation(null)
+        setFromLocation(null)
+      }
     return (
         <>
       {
@@ -117,7 +122,7 @@ const RideInputs = () => {
                     setFromLocation({latitude:details.geometry.location.lat,longitude:details.geometry.location.lng})
                 }}
                 query={{
-                    key: 'YOUR_API_KEY',
+                    key: 'AIzaSyAmklv2wjfdYvXPvGnoTo6LcDlZ2Ix3JgU',
                     language: 'en',
                     components: 'country:in',
                 }}
@@ -126,7 +131,6 @@ const RideInputs = () => {
                 fetchDetails={true}
                 enablePoweredByContainer={false}
                 returnKeyType={'search'}
-                predefinedPlaces={[homePlace, workPlace]}
                 autoFocus={true}
                 defaultValue={location}
                 textInputProps={{ placeholderTextColor: '#fff' }}
@@ -134,14 +138,14 @@ const RideInputs = () => {
                    
                     textInputContainer: {
                         backgroundColor: '#000',
-                        height: 40,
-                        marginBottom: 10,
-                        paddingBottom: 10,
+                        height: 60,
+                        marginBottom: 30,
+                        paddingBottom: 30,
                     },
                     textInput: {
-                        height: 40,
+                        height: 60,
                         color: '#fff',
-                        fontSize: 16,
+                        fontSize: 20,
                         backgroundColor: '#000',
                         borderWidth: 1,
                         borderColor: '#fff',
@@ -177,7 +181,7 @@ const RideInputs = () => {
                     console.log(textinputValid)
                 }}
                 query={{
-                    key: 'YOUR_API_KEY',
+                    key: 'AIzaSyAmklv2wjfdYvXPvGnoTo6LcDlZ2Ix3JgU',
                     language: 'en',
                     components: 'country:in',
                 }}
@@ -190,7 +194,7 @@ const RideInputs = () => {
                 styles={{
                     container: {
                         position: 'absolute',
-                        top: 205,
+                        top: 230,
                         left: 10,
                         width: '100%',
                         zIndex:0,
@@ -199,7 +203,7 @@ const RideInputs = () => {
                     },
                     textInputContainer: {
                         backgroundColor: '#000',
-                        height: 40,
+                        height: 60,
                         marginBottom: 10,
                         paddingBottom: 10,
                     },
@@ -207,13 +211,14 @@ const RideInputs = () => {
                         color:"#fff"
                     },
                     textInput: {
-                        height: 40,
+                        height: 60,
                         color: '#fff',
-                        fontSize: 16,
+                        fontSize: 20,
                         backgroundColor: '#000',
                         borderWidth: 1,
                         borderColor: '#fff',
                         borderRadius: 12,
+                        padding:20,
                         placeholderTextColor: '#fff',
                     },
                     listView: {
@@ -238,7 +243,7 @@ const RideInputs = () => {
             />
             {
                 !keyboardOpen ? <View className=" -z-50">
-                <CustomButton title="Confirm Destination" containerStyle={`my-5  mx-auto w-[95%] ${(fromLocation != null && toLocation!=null)?"bg-[#666]":"bg-yellow-500"}`} handlePress={()=> {
+                <CustomButton title="Confirm Destination" containerStyle={`my-10  mx-auto w-[95%] ${(fromLocation != null && toLocation!=null)?"":"bg-[#666]"}`} handlePress={()=> {
                     if (fromLocation && toLocation) {
                         getDistanceAndDuration(fromLocation, toLocation);
                       }
@@ -247,28 +252,10 @@ const RideInputs = () => {
             }
             
             </>
-        
-       {/* <TouchableOpacity onPress={() => router.push("/mapViewer")} className="px-5  border-b-[1px] border-darkgray py-1 items-center flex-row">
-            <View className=" w-7 h-7 rounded-full justify-center items-center flex-row">
-                <Image source={icons.location} className="w-5 h-5 " resizeMode="contain" />
-            </View>
-            <View className="mx-3">
-                <Text className="text-sm font-ubold text-white">Ghaziabad</Text>
-                <Text className="text-xs text-zinc-300">Uttar Pradesh</Text>
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => router.push("/mapViewer")} className="px-5  border-b-[1px] border-darkgray py-1 items-center flex-row">
-            <View className=" w-7 h-7 rounded-full justify-center items-center flex-row">
-                <Image source={icons.location} className="w-5 h-5 " resizeMode="contain" />
-            </View>
-            <View className="mx-3">
-                <Text className="text-sm font-ubold text-white">Delhi</Text>
-                <Text className="text-xs text-zinc-300">Dilshad Garden</Text>
-            </View>
-        </TouchableOpacity> */}
+   
     </View>:""
       }
-        {(fromLocation != null && toLocation!=null && (RideBook && RideBook.show)) ? <BottomRideOptions distance={RideBook?RideBook.distance:null} time={RideBook?RideBook.time:null} back={backToRideInput}/> : null}</>
+        {(fromLocation != null && toLocation!=null && (RideBook && RideBook.show)) ? <BottomRideOptions distance={RideBook?RideBook.distance:null} time={RideBook?RideBook.time:null} back={backToRideInput} reset={resetRide}/> : null}</>
     )
 }
 

@@ -73,7 +73,7 @@ const Profile = () => {
                             {user?.isDriver ? <Image source={icons.driver} className="w-5 h-5" /> : null}
                         </View>
                     </View>
-                    {/* <View ><Image source={{ uri: user?.avatar.url }} className="w-20 h-20 rounded-full " /></View> */}
+                    <View ><Image source={{ uri: user?.avatar.url }} className="w-20 h-20 rounded-full " /></View>
                 </View>
                 <ScrollView>
 

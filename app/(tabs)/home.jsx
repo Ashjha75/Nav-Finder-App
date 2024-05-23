@@ -27,7 +27,6 @@ const Home = () => {
                   },
               });
               if (response.success) {
-                console.log(response.data)
                   response.data.accessToken = token;
                   setUser(response.data)
               }

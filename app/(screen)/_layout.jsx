@@ -19,13 +19,13 @@ const ScreenLayout = () => {
                     }}
                 />
                 <Stack.Screen
-                    name='otp'
+                    name='changePassword'
                     options={{
                         headerShown: false
                     }}
                 />
                 <Stack.Screen
-                    name='changePassword'
+                    name='driver'
                     options={{
                         headerShown: false
                     }}
@@ -36,6 +36,13 @@ const ScreenLayout = () => {
                         headerShown: false
                     }}
                 />
+                <Stack.Screen
+                    name='vehicleType'
+                    options={{
+                        headerShown: false
+                    }}
+                />
+                
 
 
             </Stack>

@@ -1,32 +1,38 @@
 [
     {
         "id": 1,
-        "image": "gear",
-        "name": "Settings",
-        "link": "/settings"
+        "image": "password",
+        "name": "Change password",
+        "link": "/changePassword"
     },
     {
         "id": 2,
-        "image": "email",
-        "name": "Messages",
-        "link": "/messages"
+        "image": "user",
+        "name": "Earn by driving",
+        "link": "/driver"
     },
     {
         "id": 3,
-        "image": "giftBox",
-        "name": "Send a gift",
-        "link": "/sendGift"
+        "image": "gear",
+        "name": "Settings",
+        "link": ""
     },
     {
         "id": 4,
-        "image": "user",
-        "name": "Manage account",
-        "link": "/settings"
+        "image": "email",
+        "name": "Messages",
+        "link": ""
     },
     {
         "id": 5,
+        "image": "giftBox",
+        "name": "Send a gift",
+        "link": ""
+    },
+    {
+        "id": 6,
         "image": "routes",
         "name": "Shuttle Routes",
-        "link": "/shuttleRoutes"
+        "link": ""
     }
 ]

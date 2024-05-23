@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import CustomButton from '../components/customButton';
-import { Formik } from 'formik';
-import {  OtpSchema } from '../utils/yup/yup-schemas';
+import { Link, router } from 'expo-router';
+import { View, Text, SafeAreaView, Image,  ScrollView } from 'react-native';
+import React, {  useState } from 'react';
 import useApi from '../utils/services/baseservice';
-import Loader from '../components/loader';
-import CustomModal from '../components/customModal';
-import FormField from '../components/FormField';
-import {  router } from 'expo-router';
 import images from '../constants/images';
-const Otp = ({email}) => {
+import CustomModal from './customModal';
+import { Formik } from 'formik';
+import FormField from './FormField';
+import CustomButton from './customButton';
+import Loader from './loader';
+import { OtpSchema } from '../utils/yup/yup-schemas';
+import ResetPassword from './resetPassword';
+const Otp = ({email,page}) => {
     const { loading, post } = useApi();
     const [showModal, setShowModal] = useState({});
+    const [resetPassword, setResetPassword] = useState(false);
+
 
     const otp = async (values) => {
         values.email=email;
+        console.log(email)
         try {
             setShowModal({
                 isVisible:false,
@@ -31,6 +34,10 @@ const Otp = ({email}) => {
                     type: 'success',
                     showConfirm:false
                 })
+                if(page=='signup')
+                    router.replace("/sign-in")
+                else if(page=="forgotPassword")	
+                setResetPassword(true)
             }
             return;
 
@@ -51,6 +58,7 @@ const Otp = ({email}) => {
 
     return (
         <SafeAreaView className="bg-primary h-full w-full flex-col justify-center">
+            {loading ? <Loader /> : (
                 <ScrollView >
 
                     <View className="flex justify-center mt-2 mb-4">
@@ -62,18 +70,18 @@ const Otp = ({email}) => {
                         <Text className="text-[#dddedf] mt-10 px-4 font-umedium text-base">Enter the OTP sent to your registered email address  to verify your identity and proceed.</Text>
                         <Formik
                             initialValues={{
-                                otp: ""
+                                email: ""
                             }}
                             validationSchema={OtpSchema}
-                            // onSubmit={(values, { validateForm }) => {
-                            //     validateForm(values).then((errors) => {
-                            //         if (errors && Object.keys(errors).length === 0) {
-                            //             otp(values); // Make the API call here
-                            //         }
-                            //     });
-                            // }}
+                            onSubmit={(values, { validateForm }) => {
+                                validateForm(values).then((errors) => {
+                                    if ( Object.keys(errors).length === 0) {
+                                        otp(values); // Make the API call here
+                                    }
+                                });
+                            }}
                         >
-                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => {
+                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => {
                                 return (
                                     <View className=" mt-5 px-5">
 
@@ -87,16 +95,23 @@ const Otp = ({email}) => {
                                             otherStyle="mt-7"
                                             keyboardType="numeric"
                                         />
+                                        <CustomButton title="Submit" containerStyle="mt-10" handlePress={handleSubmit} />
                                         <CustomButton title="Cancel" containerStyle="mt-5 bg-[#1e5546] " textStyles="text-white" handlePress={() => router.back()} />
                                     </View>
                                 )
                             }}
                         </Formik>
+                        <View className="justify-center pt-5 flex-row gap-2">
+                            <Text className="text-lg text-[#a7a7a7]  font-regular">Didn't have an account? <Link href="/sign-up" className="text-white underline">Sign Up</Link></Text>
+                        </View>
                     </View><Text className="text-white text-center mt-32 px-4">
-                        By clicking on Sign In, you are accepting our{' '}
+                        By clicking on Submit, you are accepting our{' '}
                         <Text className="text-blue-500 underline">Privacy Policy</Text>
                     </Text>
                 </ScrollView>
+            )}
+            {resetPassword && <ResetPassword email={email} />}
+        {showModal.isVisible && <CustomModal data={showModal}/>}
         </SafeAreaView>
     );
 };

@@ -13,14 +13,18 @@ import SelectFormField from '../../components/selectFormField';
 import PickFile from '../../components/pickFile';
 import { useGlobalContext } from '../../context/GlobalProvider';
 import { router } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
+
 const OnboardingScreen = () => {
     const [result, setResult] = useState(null)
     const { loading, post } = useApi();
     const [showModal, setShowModal] = useState({});
     const { user,setUser} = useGlobalContext();
+    let token=''
   
     useEffect(() => {
         ; (async () => {
+        token = await SecureStore.getItemAsync('accessToken');
             try {
                 const body = { lookups: ["genders", "securityQuestions"] }
                 setShowModal({
@@ -86,9 +90,8 @@ const OnboardingScreen = () => {
             const url = "/auth/onboarding";
             const customHeaders = {
                 "Content-Type":"multipart/form-data",
-                "Authorization": `Bearer ${user.accessToken}`,
+                "Authorization": `Bearer ${token}`,
             };
-            console.log(formData)
 
             const response = await post(url, formData, customHeaders);
             if (response && response.success) {

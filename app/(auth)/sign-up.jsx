@@ -10,11 +10,12 @@ import { SignUpSchema } from '../../utils/yup/yup-schemas';
 import useApi from '../../utils/services/baseservice';
 import Loader from '../../components/loader';
 import CustomModal from '../../components/customModal';
-
+import Otp from '../../components/otp';
 
 const SignUp = () => {
     const {loading, post}=useApi();
 const [showModal, setShowModal] = useState({})
+const [otp, setOtp] = useState(null)
     const signUpUser = async (values)=>{
         try {
             setShowModal({
@@ -25,9 +26,12 @@ const [showModal, setShowModal] = useState({})
             
             const url="/auth/signup";
             const response = await post(url, values);
-            console.log(response)
             if(response.success){
-                router.push("/home")
+                setOtp({
+                    isVisible:true,
+                    email:values.email
+                })
+                // router.push("/home")
             }
             return response.data;
     
@@ -48,7 +52,7 @@ const [showModal, setShowModal] = useState({})
     return (
         <SafeAreaView className="bg-primary h-full w-full flex-col justify-center">
             {
-                loading?<Loader/>:(<>
+                loading?<Loader/>:((otp && otp.isVisible)?(<Otp email={otp && otp.email} page="signup" />):(<>
                 <ScrollView contentContainerStyle={{ height: "100%" }}>
                 <View className="flex-row px-4 items-center mt-8 justify-start">
                     <Image source={images.logo} className="w-[45px] bg-secondary h-[45px] rounded-lg" resizeMode="contain" />
@@ -112,7 +116,7 @@ const [showModal, setShowModal] = useState({})
             </ScrollView>
             {showModal.isVisible && <CustomModal data={showModal}/>}
             </>)
-            }
+            )}
         </SafeAreaView>
     );
 };

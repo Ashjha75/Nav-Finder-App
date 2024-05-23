@@ -14,9 +14,9 @@ import { router } from 'expo-router'
 const BottomRideOptions = ({ distance, time, back ,reset}) => {
     const toast = useToast();
   
-    const { fromLocation,toLocation,setToLocation,setFromLocation } = useLocation();
-    const { loading, post } = useApi();
-    const { user, setUser } = useGlobalContext();
+    const { fromLocation,toLocation} = useLocation();
+    const { post } = useApi();
+    const { user, } = useGlobalContext();
     const [result, setResult] = useState(null)
     const [showModal, setShowModal] = useState({});
     const [document, setDocument] = useState({});

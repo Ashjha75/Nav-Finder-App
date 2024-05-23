@@ -25,6 +25,7 @@ const SignIn = () => {
             const response = await post(url, values);
             if (response.success) {
                 await SecureStore.setItemAsync('accessToken', response.data.accessToken);
+                
                 if (response.data.isOnboarded) {
                     router.replace("/home")
                 }

@@ -56,7 +56,7 @@ const ForgotPassword = () => {
 
     return (
         <SafeAreaView className="bg-primary h-full w-full flex-col justify-center">
-            {loading ? <Loader /> : (
+            {loading ? <Loader /> : ((otp && otp.isVisible)?(<Otp email={otp && otp.email} page="forgotPassword"/>):(
                 <ScrollView >
 
                     <View className="flex justify-center mt-2 mb-4">
@@ -106,10 +106,10 @@ const ForgotPassword = () => {
                         By clicking on Submit, you are accepting our{' '}
                         <Text className="text-blue-500 underline">Privacy Policy</Text>
                     </Text>
-                </ScrollView>
+                </ScrollView>)
             )}
             
-            {otp && otp.isVisible && <Otp email={otp && otp.email} />}
+            {/* {otp && otp.isVisible && <Otp2 email={otp && otp.email} />} */}
         {showModal.isVisible && <CustomModal data={showModal}/>}
         </SafeAreaView>
     );

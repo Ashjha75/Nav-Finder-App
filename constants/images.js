@@ -33,6 +33,7 @@ import clipBoard from "../assets/images/clipBoard.png";
 import leaf from "../assets/images/leaf.png";
 import bars from "../assets/images/bars.png";
 import upload from "../assets/images/folder-upload.png";
+import tick from "../assets/images/badge-check.png";
 export default {
-    rightArrow, rightArrow2, earnerIllustra, logo, uberX, uberXL, uberGo,uberP, bus, rickshaw, bike, schedule, restaurant, parsel, car, pin, focus, briefcase, groupRide, yourschdeule, shuttlebus, scheduletime, promo, ondemand, space, user, lifesaver, wallet, activity, promos, graph, clipBoard, leaf, bars,upload,
+    rightArrow, rightArrow2, earnerIllustra, logo, uberX, uberXL, uberGo,uberP, bus, rickshaw, bike, schedule, restaurant, parsel, car, pin, focus, briefcase, groupRide, yourschdeule, shuttlebus, scheduletime, promo, ondemand, space, user, lifesaver, wallet, activity, promos, graph, clipBoard, leaf, bars,upload,tick,
 }

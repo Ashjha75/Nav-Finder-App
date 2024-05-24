@@ -46,8 +46,21 @@ const useApi = () => {
       setLoading(false);
     }
   }, [api]);
+  const deleteApi = useCallback(async (url, data = {}, customHeaders = {}) => {
+    setError(null);
+    setLoading(true);
+    try {
+      const response = await api.delete(url, data, { headers: { ...api.defaults.headers, ...customHeaders } });
+      return response?.data;
+    } catch (error) {
+      setError(error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [api]);
 
-  return { loading, error, get, post };
+  return { loading, error, get, post ,deleteApi};
 };
 
 export default useApi;

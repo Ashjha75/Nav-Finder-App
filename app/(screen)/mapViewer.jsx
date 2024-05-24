@@ -55,6 +55,7 @@ const MapViewer = () => {
             {isMapClicked ? <TouchableOpacity onPress={() => {router.back();setFromLocation(null);setToLocation(null)}} className=" w-12 h-12 absolute z-10 top-14 left-3 rounded-full bg-primary  flex-1 justify-center items-center">
                 <Image source={images.rightArrow} className="w-7  h-6 rotate-180" resizeMode='contain' />
             </TouchableOpacity> : null}
+            <View className="h-[83%]">
             <MapView
                 ref={mapRef}
                 className="w-full h-full"
@@ -101,6 +102,7 @@ const MapViewer = () => {
                 ))} */}
 
             </MapView>
+            </View>
             <MapBottomSheet onSnapPointChange={handleSnapPointChange} onPress={() => console.log("hi")} />
             {isMapClicked ? (<TouchableOpacity onPress={handleFocus} className=" w-12 h-12 absolute z-10 bottom-[40%] right-4 rounded-full bg-primary  flex-1 justify-center items-center">
                 <Image source={images.focus} className="w-7  h-6 rotate-180" resizeMode='contain' />

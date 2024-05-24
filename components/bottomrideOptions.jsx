@@ -9,9 +9,10 @@ import { ScrollView } from 'react-native-gesture-handler'
 import CustomButton from './customButton'
 import Loader from './loader'
 import { useToast } from 'react-native-toast-notifications'
-import { router } from 'expo-router'
+import { router, useRouter } from 'expo-router'
 // import {location } from "../context/userLocationContext";
 const BottomRideOptions = ({ distance, time, back ,reset}) => {
+    const routes = useRouter();
     const toast = useToast();
   
     const { fromLocation,toLocation} = useLocation();
@@ -45,11 +46,11 @@ const BottomRideOptions = ({ distance, time, back ,reset}) => {
                 distance: Number(distance.split(" km")[0].replace(',', '')),
                 duration: Number(time),
                 pickupLocation: {
-                    type: "Point",
+                    type: fromLocation.type,
                     coordinates: [fromLocation.longitude, fromLocation.latitude]
                 },
                 dropoffLocation: {
-                    type: "Point",
+                    type: toLocation.type,
                     coordinates: [toLocation.longitude, toLocation.latitude]
                 },
                 vehicleType: response.data[0].vehicleType,
@@ -89,10 +90,9 @@ const handleBook=async ()=>{
     };
     const url = "/finder/bookRide";
     const response = await post(url, body, customHeaders);
-    console.log(response.success)
     if(response.success){
-        router.push("/activity")
         reset()
+        routes.push({ pathname: "/activity", params: {message:response.message} });
       }
     return;
 

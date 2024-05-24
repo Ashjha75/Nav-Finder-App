@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import icons from '../../constants/icons'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {  router } from 'expo-router'

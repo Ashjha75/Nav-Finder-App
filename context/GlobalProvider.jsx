@@ -9,6 +9,7 @@ const GlobalProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoaggedIn, setIsLoaggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const [documentStage,setDocumentStage]=useState([])
 
     useEffect(() => {
         // check if user is logged in
@@ -42,8 +43,10 @@ const GlobalProvider = ({ children }) => {
             isLoading,
             isLoaggedIn,
             user,
+            documentStage,
             setUser,
-            setIsLoaggedIn
+            setIsLoaggedIn,
+            setDocumentStage
         }}>{children}</GlobalContext.Provider>
     )
 }

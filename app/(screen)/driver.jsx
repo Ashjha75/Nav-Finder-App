@@ -156,7 +156,7 @@ const Driver = () => {
 
             }}
           />
-          {!keyboardOpen && <CustomButton title="Confirm Destination" containerStyle={`absolute bottom-20 ml-4 w-full "}`} handlePress={() => preferedPlace()} />}
+          {!keyboardOpen && <><CustomButton title="Confirm Destination" containerStyle="absolute bottom-40 ml-4 w-full" handlePress={() => preferedPlace()} /><CustomButton title="Cancel" containerStyle="absolute bottom-20 ml-4 w-full bg-[#1e5546] " textStyles="text-white" handlePress={() => router.back()} /></>}
 
         </>)}
       {showModal.isVisible && <CustomModal data={showModal} />}

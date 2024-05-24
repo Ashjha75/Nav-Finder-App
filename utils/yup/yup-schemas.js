@@ -55,13 +55,13 @@ const aadhaarcardValidationSchema = Yup.object().shape({
   documentNumber: Yup.string()
     .required('Document Number is required'),
   file: Yup.mixed()
-    .required('A file is required'),
+    .required('Document image is required'),
 });
 const pancardValidationSchema = Yup.object().shape({
   documentNumber: Yup.string()
     .required('Document Number is required'),
   file: Yup.mixed()
-    .required('A file is required'),
+    .required('Document image is required'),
 });
 const vehicleRegistrationValidationSchema = Yup.object().shape({
   documentNumber: Yup.string()
@@ -69,7 +69,7 @@ const vehicleRegistrationValidationSchema = Yup.object().shape({
   documentOwnerName: Yup.string()
     .required('Document Owner Name is required'),
   file: Yup.mixed()
-    .required('A file is required'),
+    .required('Document image is required'),
 });
 const insuranceValidationSchema = Yup.object().shape({
   documentNumber: Yup.string()
@@ -79,7 +79,7 @@ const insuranceValidationSchema = Yup.object().shape({
   documentOwnerName: Yup.string()
     .required('Document Owner Name is required'),
   file: Yup.mixed()
-    .required('A file is required'),
+    .required('Document image is required'),
 });
 const vehiclePermitValidationSchema = Yup.object().shape({
   documentNumber: Yup.string()
@@ -87,11 +87,11 @@ const vehiclePermitValidationSchema = Yup.object().shape({
   documentOwnerName: Yup.string()
     .required('Document Owner Name is required'),
   file: Yup.mixed()
-    .required('A file is required'),
+    .required('Document image is required'),
 });
 const driverPhotoValidationSchema = Yup.object().shape({
   file: Yup.mixed()
-    .required('A file is required'),
+    .required('Document image is required'),
 });
 const forgotPasswordSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Email is required'),

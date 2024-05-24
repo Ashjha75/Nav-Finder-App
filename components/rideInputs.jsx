@@ -17,23 +17,6 @@ const RideInputs = () => {
     })
     const [keyboardOpen, setKeyboardOpen] = useState(false);
     const [RideBook, setRideBook] = useState(null);
-    // console.log("ride",location)
-    const homePlace = {
-        description: 'Home',
-        geometry: { location: { lat: 48.8152937, lng: 2.4597668 } },
-      };
-      const workPlace = {
-        description: 'Work',
-        geometry: { location: { lat: 48.8496818, lng: 2.2940881 } },
-      };
-      const mapviewHandler =()=>{
-        if(fromLocation != null && toLocation!=null){
-            router.push("/mapViewer")
-        }
-        else{
-            return
-        }
-      }
       
       useEffect(() => {
         // Add event listeners for keyboard show and hide events
@@ -59,10 +42,13 @@ const RideInputs = () => {
       const getDistanceAndDuration = async (fromLocation, toLocation) => {
         const from = `${fromLocation.latitude},${fromLocation.longitude}`;
         const to = `${toLocation.latitude},${toLocation.longitude}`;
+        if(fromLocation.type === toLocation.type){
+            alert("Pickup and destination cannot be the same")
+            return;
+        }
         const response = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${from}&destinations=${to}&key=YOUR_API_KEY`);
         const data = response.data;
         const distance = data.rows[0].elements[0].distance.text;
-        const duration = data.rows[0].elements[0].duration.text;
         const durationInSeconds = data.rows[0].elements[0].duration.value;
         const durationInMinutes = Math.round(durationInSeconds / 60);
         setRideBook({
@@ -118,8 +104,8 @@ const RideInputs = () => {
                     setTextinputValid({
                         to: true
                     })
-                    console.log(textinputValid)
-                    setFromLocation({latitude:details.geometry.location.lat,longitude:details.geometry.location.lng})
+                    console.log()
+                    setFromLocation({type:data.description,latitude:details.geometry.location.lat,longitude:details.geometry.location.lng})
                 }}
                 query={{
                     key: 'YOUR_API_KEY',
@@ -174,7 +160,7 @@ const RideInputs = () => {
             <GooglePlacesAutocomplete
                 placeholder=' ◻️   Destination'
                 onPress={(data, details = null) => {
-                    setToLocation({latitude:details.geometry.location.lat,longitude:details.geometry.location.lng});
+                    setToLocation({type:data.description,latitude:details.geometry.location.lat,longitude:details.geometry.location.lng});
                     setTextinputValid({
                         from: true
                     })

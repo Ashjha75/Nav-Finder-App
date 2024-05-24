@@ -1,39 +1,18 @@
-// const API_KEY = "MY_API"
 
-import * as SecureStore from 'expo-secure-store';
-import useApi from "./baseservice";
-const { get } = useApi();
+export function formatDate(dateStr) {
+    const date = new Date(dateStr);
 
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const year = date.getFullYear();
 
-// const config = {
-//     headers: {
-//         'content-type': 'application/json',
-//         'X-Goog-Api-Key': API_KEY,
-//         "X-Goog-FieldMask':[]
-//     }
-// }
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
 
-export const fetchUser = async () => {
-    try {
-        const token = await SecureStore.getItemAsync('accessToken');
-        if (token) {
-            const url = "/auth/getCurrentUser";
-            const response = await get(url, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            if (response.success) {
-                response.data.accessToken = token;
-                return response.data
-            }
-        }
-        else{
-            return null;
-        }
-    }
-    catch (error) {
-        console.log(error)
-    }
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    hours = String(hours).padStart(2, '0');
 
-};
+    return `${day}-${month}-${year} (${hours}:${minutes} ${ampm})`;
+}

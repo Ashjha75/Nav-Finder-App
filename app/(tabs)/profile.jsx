@@ -63,7 +63,7 @@ const Profile = () => {
     return (
         <SafeAreaView className="bg-primary h-full w-full">
             {(user ) ? <><TouchableOpacity activeOpacity={0.8} onPress={() => router.back()}><Image source={icons.close} className="w-5 ml-5 mt-3 h-5" /></TouchableOpacity>
-                <View className=" mt-7 h-24 px-4 flex-row justify-between items-center pb-3">
+                <View className=" mt-7 pb-7 h-28 px-4 flex-row justify-between items-center">
                     <View className="w-[60%]"><Text className="text-3xl text-white font-bold">{user.firstName + ' ' + user.lastName}</Text>
                         <Text className="text-lg text-textcolor font-ubold">{user.userName}</Text>
                         <View className="flex-row justify-between w-[55%] items-center">
@@ -73,7 +73,7 @@ const Profile = () => {
                             {user?.isDriver ? <Image source={icons.driver} className="w-5 h-5" /> : null}
                         </View>
                     </View>
-                    <View ><Image source={{ uri: user?.avatar.url }} className="w-20 h-20 rounded-full " /></View>
+                    <View ><Image source={{ uri:user.avatar && user?.avatar.url }} className="w-20 h-20 rounded-full " /></View>
                 </View>
                 <ScrollView>
 

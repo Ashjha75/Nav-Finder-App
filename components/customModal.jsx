@@ -6,14 +6,12 @@ import icons from '../constants/icons';
 
 const CustomModal = forwardRef(({ data }, ref) => {
   const { isVisible, value, type, confirm, cancel,showConfirm } = data;
-console.log(data)
   const bottomSheetModalRef = useRef(null);
 
   const snapPoints = useMemo(() => {
     if (value === '') return ['36%'];
     if (value.length > 50) return ['50%'];
-    if (value.length <= 30 && value.length > 20) return ['40%'];
-    else return ['30%'];
+    else return ['40%'];
   }, [value]);
 
   useEffect(() => {

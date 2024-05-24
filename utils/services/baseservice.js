@@ -32,8 +32,20 @@ const useApi = () => {
     }
   }, [api]);
 
+  const put = useCallback(async (url, data = {}, customHeaders = {}) => {
+    setError(null);
+    setLoading(true);
+    try {
+      const response = await api.put(url, data, { headers: { ...api.defaults.headers, ...customHeaders } });
+      return response?.data;
+    } catch (error) {
+      setError(error);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  }, [api]);
   const post = useCallback(async (url, data = {}, customHeaders = {}) => {
-    console.log(data)
     setError(null);
     setLoading(true);
     try {
@@ -60,7 +72,7 @@ const useApi = () => {
     }
   }, [api]);
 
-  return { loading, error, get, post ,deleteApi};
+  return { loading, error, get, post ,deleteApi,put};
 };
 
 export default useApi;

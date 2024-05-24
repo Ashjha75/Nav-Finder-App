@@ -11,17 +11,27 @@ import Loader from './loader'
 import { useToast } from 'react-native-toast-notifications'
 import { router, useRouter } from 'expo-router'
 // import {location } from "../context/userLocationContext";
-const BottomRideOptions = ({ distance, time, back ,reset}) => {
+const BottomRideOptions = ({ distance, time, back, reset }) => {
     const routes = useRouter();
     const toast = useToast();
-  
-    const { fromLocation,toLocation} = useLocation();
+
+    const { fromLocation, toLocation } = useLocation();
     const { post } = useApi();
     const { user, } = useGlobalContext();
     const [result, setResult] = useState(null)
     const [showModal, setShowModal] = useState({});
     const [document, setDocument] = useState({});
-    const [reqbody,setReqbody]=useState()
+    const [reqbody, setReqbody] = useState()
+    const showToast = () => {
+        toast.show("Ride Booked Successfully", {
+            type: "success",
+            duration: 5000,
+            position: "top",
+            offset: 40,
+            animationType: "zoom-in",
+        });
+    }
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         ; (async () => {
             try {
@@ -38,25 +48,28 @@ const BottomRideOptions = ({ distance, time, back ,reset}) => {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${user.accessToken}`,
                 };
+                setLoading(true);
                 const url = "/finder/getAfterLocation";
                 const response = await post(url, body, customHeaders);
+               if(response.success){
                 setResult(response.data)
                 setDocument(response.data[0])
-               setReqbody({
-                distance: Number(distance.split(" km")[0].replace(',', '')),
-                duration: Number(time),
-                pickupLocation: {
-                    type: fromLocation.type,
-                    coordinates: [fromLocation.longitude, fromLocation.latitude]
-                },
-                dropoffLocation: {
-                    type: toLocation.type,
-                    coordinates: [toLocation.longitude, toLocation.latitude]
-                },
-                vehicleType: response.data[0].vehicleType,
-                estimatedFare: response.data[0].totalFare,
-                paymentMethod: "credit_card",
-            })
+                setReqbody({
+                    distance: Number(distance.split(" km")[0].replace(',', '')),
+                    duration: Number(time),
+                    pickupLocation: {
+                        type: fromLocation.type,
+                        coordinates: [fromLocation.longitude, fromLocation.latitude]
+                    },
+                    dropoffLocation: {
+                        type: toLocation.type,
+                        coordinates: [toLocation.longitude, toLocation.latitude]
+                    },
+                    vehicleType: response.data[0].vehicleType,
+                    estimatedFare: response.data[0].totalFare,
+                    paymentMethod: "credit_card",
+                })
+            }
                 return;
 
             } catch (error) {
@@ -72,44 +85,51 @@ const BottomRideOptions = ({ distance, time, back ,reset}) => {
                     console.log("Unexpected error format:", error);
                 }
             }
+            finally {
+                setLoading(false)
+            }
         })()
     }, [distance, time])
-const handleBook=async ()=>{
-   try {
-    const body = reqbody;
-    setShowModal({
-        isVisible: false,
-        value: "",
-        type: "success"
-    });
-    // showToast()
-    // return
-    const customHeaders = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${user.accessToken}`,
-    };
-    const url = "/finder/bookRide";
-    const response = await post(url, body, customHeaders);
-    if(response.success){
-        reset()
-        routes.push({ pathname: "/activity", params: {message:response.message} });
-      }
-    return;
+    const handleBook = async () => {
+        try {
+            setLoading(true);
+            const body = reqbody;
+            setShowModal({
+                isVisible: false,
+                value: "",
+                type: "success"
+            });
+            // showToast()
+            // return
+            const customHeaders = {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${user.accessToken}`,
+            };
+            const url = "/finder/bookRide";
+            const response = await post(url, body, customHeaders);
+            if (response.success) {
+                reset()
+                routes.push({ pathname: "/activity", params: { message: response.message } });
+            }
+            return;
 
-} catch (error) {
-    if (error.response && error.response.data && error.response.data.message) {
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
 
-        setShowModal({
-            isVisible: true,
-            value: error.response.data.message,
-            type: 'error',
-        });
-    } else {
-        // Handle cases where response or its properties are undefined
-        console.log("Unexpected error format:", error);
+                setShowModal({
+                    isVisible: true,
+                    value: error.response.data.message,
+                    type: 'error',
+                });
+            } else {
+                // Handle cases where response or its properties are undefined
+                console.log("Unexpected error format:", error);
+            }
+        }
+        finally {
+            setLoading(false)
+        }
     }
-}
-        }    
     return (
         <View className="w-full h-full px-3">
             <View className="flex-row   "><TouchableOpacity onPress={() => reset()}><Image source={images.rightArrow} className="w-7 h-7 rotate-180" /></TouchableOpacity>
@@ -130,35 +150,39 @@ const handleBook=async ()=>{
                 </TouchableOpacity>
             </View>
             {
-                result ?
-                    (<ScrollView className="w-full h-52">
-                        {
-                            result.map((item) => {
-                                return (
-                                    <TouchableOpacity key={item.vehicleType} onPress={() => {setDocument(item);setReqbody((prev)=>({
-                                        ...prev,
-                                        vehicleType:item.vehicleType,
-                                        estimatedFare:item.totalFare,
-                                    }));}} activeOpacity={0.7} className={`my-1 rounded-2xl h-[90px] flex-row justify-center items-center mx-1 border-2 ${item.vehicleType == document.vehicleType ? "border-white" : ''} `}>
-                                        <Image source={images[item.image]} className={`w-24 mr-2 h-24 ${item.vehicleType == "Shuttle Bus" || item.vehicleType == "Packages" ? 'w-16 h-16' : ''}`} resizeMode='contain' />
-                                        <View className="flex-col w-[46%]">
-                                            <View className="flex-row justify-left items-center">
-                                                <Text className=" text-secondary text-ubold text-lg">{item.vehicleType}</Text>
-                                                <Image source={icons.user} className="w-3 h-3 ml-2" /><Text className=" text-secondary text-xs">{item.person}</Text>
+                loading ? (<Loader />):
+                    (<>
+                        <ScrollView className="w-full h-52">
+                            {
+                                result && result.map((item) => {
+                                    return (
+                                        <TouchableOpacity key={item.vehicleType} onPress={() => {
+                                            setDocument(item); setReqbody((prev) => ({
+                                                ...prev,
+                                                vehicleType: item.vehicleType,
+                                                estimatedFare: item.totalFare,
+                                            }));
+                                        }} activeOpacity={0.7} className={`my-1 rounded-2xl h-[90px] flex-row justify-center items-center mx-1 border-2 ${item.vehicleType == document.vehicleType ? "border-white" : ''} `}>
+                                            <Image source={images[item.image]} className={`w-24 mr-2 h-24 ${item.vehicleType == "Shuttle Bus" || item.vehicleType == "Packages" ? 'w-16 h-16' : ''}`} resizeMode='contain' />
+                                            <View className="flex-col w-[46%]">
+                                                <View className="flex-row justify-left items-center">
+                                                    <Text className=" text-secondary text-ubold text-lg">{item.vehicleType}</Text>
+                                                    <Image source={icons.user} className="w-3 h-3 ml-2" /><Text className=" text-secondary text-xs">{item.person}</Text>
+                                                </View>
+                                                <Text className=" text-secondary text-pregular text-sm">{item.away} mins away</Text>
+                                                <Text className=" text-stone-400 text-pregular text-xs">{item.title}</Text>
                                             </View>
-                                            <Text className=" text-secondary text-pregular text-sm">{item.away} mins away</Text>
-                                            <Text className=" text-stone-400 text-pregular text-xs">{item.title}</Text>
-                                        </View>
-                                        <Text className="w-[26%]   text-white font-bold text-lg text-center">₹{item.totalFare}</Text>
-                                    </TouchableOpacity>
-                                )
-                            })
-                        }
-                    </ScrollView>) : (<Loader />)
+                                            <Text className="w-[26%]   text-white font-bold text-lg text-center">₹{item.totalFare}</Text>
+                                        </TouchableOpacity>
+                                    )
+                                })
+                            }
+                        </ScrollView>
+                        <View className="w-full h-fit flex-row justify-center my-2 py-2 items-center">
+                            <CustomButton title="Book Now" containerStyle="w-[90%] h-12 my-2" handlePress={() => handleBook()} />
+                        </View>
+                    </>) 
             }
-            <View className="w-full h-fit flex-row justify-center my-2 py-2 items-center">
-                <CustomButton title="Book Now" containerStyle="w-[90%] h-12 my-2" handlePress={()=>handleBook()} />
-            </View>
         </View>
     )
 }

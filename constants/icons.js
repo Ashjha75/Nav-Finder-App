@@ -29,6 +29,8 @@ import check from "../assets/icons/check.png";
 import xmark from "../assets/icons/xmark.png";
 import info from "../assets/icons/info.png";
 import password from "../assets/icons/password.png";
+import pending from "../assets/icons/pending.png";
+import cancelled from "../assets/icons/cancelled.png";
 
 
 export default {
@@ -61,5 +63,8 @@ export default {
     email,
     xmark,
     check,
-    info, password,
+    info, 
+    password,
+    pending,
+    cancelled,
 };

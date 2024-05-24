@@ -159,10 +159,14 @@ const OnboardingScreen = () => {
                                     country: ''
                                 },
                                 dob: '',
-                                gender: '',
+                                gender: {
+                                    key: ""
+                                  },
                                 AccountStatus: 'Active',
                                 securityQuestions: {
-                                    question1: '',
+                                    question1: {
+                                        key: ""
+                                      },
                                     answer1: ''
                                 }
                             }}

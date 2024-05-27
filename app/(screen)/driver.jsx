@@ -18,7 +18,6 @@ const Driver = () => {
   const { post, loading } = useApi();
 
   useEffect(() => {
-    console.log(user)
     // Add event listeners for keyboard show and hide events
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
@@ -41,7 +40,6 @@ const Driver = () => {
   }, []);
   const preferedPlace = async () => {
     try {
-      console.log(values)
       if (!values) {
         return;
       }

@@ -18,7 +18,6 @@ const Otp = ({email,page}) => {
 
     const otp = async (values) => {
         values.email=email;
-        console.log(email)
         try {
             setShowModal({
                 isVisible:false,

@@ -10,7 +10,6 @@ import CustomButton from './customButton'
 import Loader from './loader'
 import { useToast } from 'react-native-toast-notifications'
 import { router, useRouter } from 'expo-router'
-// import {location } from "../context/userLocationContext";
 const BottomRideOptions = ({ distance, time, back, reset }) => {
     const routes = useRouter();
     const toast = useToast();

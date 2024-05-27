@@ -42,9 +42,12 @@ const ScreenLayout = () => {
                         headerShown: false
                     }}
                 />
-                
-
-
+                <Stack.Screen
+                    name='razorpay'
+                    options={{
+                        headerShown: false
+                    }}
+                />
             </Stack>
             <StatusBar backgroundColor='#000' style='light' />
         </>

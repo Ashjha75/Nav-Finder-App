@@ -56,14 +56,11 @@ const Document = ({ document, showDocument }) => {
         const response = await post(url, body);
         if (response.success && document.page) {
           setResult(response.data);
-          console.log(response.data.documentContents.filter(item => item.key === document.page))
           let data = response.data.documentContents.filter(item => item.key === document.page)
-          console.log(data)
           if (data.length > 0)
             setCurrentDocument(
               [data[0].value]
             );
-          console.log(currentDocument)
 
         }
         return;

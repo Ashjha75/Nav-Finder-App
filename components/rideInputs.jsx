@@ -100,11 +100,9 @@ const RideInputs = () => {
                 ⚪  Pickup Location'
                 onPress={(data, details = null) => {
                     // 'details' is provided when fetchDetails = true
-                    console.log(data, details);
                     setTextinputValid({
                         to: true
                     })
-                    console.log()
                     setFromLocation({type:data.description,latitude:details.geometry.location.lat,longitude:details.geometry.location.lng})
                 }}
                 query={{
@@ -164,7 +162,6 @@ const RideInputs = () => {
                     setTextinputValid({
                         from: true
                     })
-                    console.log(textinputValid)
                 }}
                 query={{
                     key: 'YOUR_API_KEY',

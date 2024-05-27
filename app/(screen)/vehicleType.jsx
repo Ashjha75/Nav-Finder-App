@@ -73,7 +73,6 @@ const VehicleType = () => {
     const handleBook = async () => {
         try {
             const body = reqbody;
-            console.log(body)
             if (!body) {
                 return;
             }
@@ -89,7 +88,6 @@ const VehicleType = () => {
             };
             const url = "/driver/driverVehicleType";
             const response = await post(url, body, customHeaders);
-            console.log(response.success)
             if (response.success) {
                 showToast()
                 router.push("/documentOptions");

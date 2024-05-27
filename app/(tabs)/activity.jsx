@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import images from '../../constants/images';
 import sounds from '../../constants/sounds';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams, useRouter } from 'expo-router';
 import CustomModal from '../../components/customModal';
 import { useGlobalContext } from '../../context/GlobalProvider';
 import useApi from '../../utils/services/baseservice';
@@ -16,6 +16,7 @@ import { Animated, Easing } from 'react-native';
 
 const Activity = () => {
     const { user } = useGlobalContext();
+    const routes = useRouter();
     const { get,put } = useApi();
     const params = useLocalSearchParams();
     const [showModal, setShowModal] = useState({});
@@ -54,6 +55,48 @@ const Activity = () => {
         inputRange: [0, 1], // Matched inputRange to toValue
         outputRange: ['0deg', '360deg'] // Set outputRange for 360 degree rotation
     });
+    useEffect(() => {
+        if(params.message =="success" && params.id){
+      ;(async()=>{
+        try {
+            setLoading(true);
+            const url = `payments/getCallback?rideId=${params.id}`;
+            const customHeaders = {
+                "Authorization": `Bearer ${user.accessToken}`,
+            };
+            const response = await get(url, {}, customHeaders);
+            if (response.success) {
+                params.message = null;
+                console.log(response.data)
+                setResult(response.data);
+            }
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                setShowModal({
+                    isVisible: true,
+                    value: error.response.data.message,
+                    type: 'error',
+                    cancel: () => {
+                        setShowModal((prev) => ({ ...prev, isVisible: false }));
+                    },
+                });
+            } else {
+                setShowModal({
+                    isVisible: true,
+                    value: error.message,
+                    type: 'error',
+                    showConfirm: false,
+                    cancel: () => {
+                        setShowModal((prev) => ({ ...prev, isVisible: false }));
+                    },
+                });
+                console.log("Unexpected error format:", error);
+            }
+        } finally {
+            setLoading(false);
+        }})()
+    }}, [])
+    
 
 
     const fetchActivities = async () => {
@@ -100,13 +143,12 @@ const Activity = () => {
             try {
                 const { sound } = await Audio.Sound.createAsync(sounds.successTone);
                 await sound.playAsync();
-                console.log('Sound played successfully');
             } catch (error) {
                 console.error('Error playing sound:', error);
             }
         };
 
-        if (params.message) {
+        if (params.message ) {
             setShowModal({
                 isVisible: true,
                 value: params.message,
@@ -242,13 +284,13 @@ const Activity = () => {
                                                         <View className="gap-x-3 flex-row pl-2">
                                                             <Text className="text-white">Total-</Text>
                                                             <Text className="text-white" numberOfLines={1} ellipsizeMode="tail">
-                                                                {`\u20B9${parseFloat(result.acceptedRides[0].totalFare).toFixed(2)}`}
+                                                                {`\u20B9${parseFloat(result.acceptedRides[0].estimatedFare).toFixed(2)}`}
                                                             </Text>
                                                         </View>
                                                     </View>
                                                     <View className="flex-row w-full justify-between">
                                                         <CustomButton title="Cancel" containerStyle="my-2  h-4 w-[45%] bg-[#1e5546] min-h-[45px]" textStyles="text-white" handlePress={()=>actionHandler("cancelled")} />
-                                                        {user.isDriver ? (<CustomButton title="Accept" containerStyle="my-2 w-[45%] min-h-[45px] " handlePress={()=>actionHandler("accepted")} />) : (<CustomButton title="Pay" containerStyle="my-2 w-[45%] min-h-[45px] " />)
+                                                        {result.isDriver ? (<CustomButton title="Accept" containerStyle="my-2 w-[46%] min-h-[45px] " handlePress={()=>actionHandler("accepted")} />) : (<CustomButton title="Pay" containerStyle="my-2 w-[46%] min-h-[45px] " handlePress={()=>{routes.push({ pathname: "/razorpay", params: { amount: result.acceptedRides[0].estimatedFare,id:result.acceptedRides[0]._id } });}} />)
                                                         }
                                                     </View>
                                                 </View>

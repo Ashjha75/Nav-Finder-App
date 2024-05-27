@@ -16,3 +16,46 @@ export function formatDate(dateStr) {
 
     return `${day}-${month}-${year} (${hours}:${minutes} ${ampm})`;
 }
+
+
+// commonservice.js
+// commonservice.js
+import axios from 'axios';
+import Base64 from 'Base64';
+
+export const getPaymentLink = async (amount, currency, customerDetails, orderId) => {
+    const username = 'key';
+    const password = 'key';
+
+    const body = {
+        amount: amount,
+        currency: currency,
+        description: "Razorpay Demo",
+        customer: {
+            name: customerDetails.name,
+            contact: customerDetails.contact,
+            email: customerDetails.email
+        },
+        notes: {
+            orderId: orderId
+        },
+        options: {
+            checkout: {
+                callback_url: "https://192.168.1.8:8081/api/v1/payments/verifyPayment",
+                callback_method: "get"
+            }
+        }
+    };
+
+    const headers = {
+        Authorization: `Basic ${Base64.btoa(username + ':' + password)}`
+    };
+console.log(headers)
+    try {
+        const response = await axios.post('https://api.razorpay.com/v1/payment_links/', body, { headers: headers });
+        return response;
+    } catch (error) {
+        console.error("Error generating payment link:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};

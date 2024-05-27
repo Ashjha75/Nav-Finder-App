@@ -6,8 +6,6 @@ import { useLocation } from '../../context/userLocationContext'
 import Loader from '../../components/loader'
 import { Image, TouchableOpacity, View } from 'react-native'
 import images from '../../constants/images'
-import VehicleMarker from '../../components/vehicleMarker'
-import carPositions from '../../constants/carPositions'
 import { router } from 'expo-router'
 import MapBottomSheet from '../../components/mapBottomSheet'
 import MapViewDirections from 'react-native-maps-directions'
@@ -84,10 +82,19 @@ const MapViewer = () => {
                 )}
 
                { (toLocation!= null && fromLocation!=null)?<>
-                <Marker coordinate={fromLocation} identifier='fromLocation' >
-                    <Image source={images.pin} className="w-14 h-44" resizeMode='contain' />
+                <Marker coordinate={fromLocation} identifier='fromLocation' anchor={{ x: 0.5, y: 0.65 }}>
+                    <Image source={images.car} className="w-14 h-44" resizeMode='contain' />
                 </Marker>
-                <Marker coordinate={toLocation} identifier='toLocation' >
+                <Marker coordinate={{ latitude: fromLocation.latitude+0.009000, longitude: fromLocation.longitude+0.000020 }} identifier='fromLocation' anchor={{ x: 0.5, y: 0.65 }}>
+                    <Image source={images.rickshaw} className="w-14 h-44" resizeMode='contain' />
+                </Marker>
+                <Marker coordinate={{ latitude: fromLocation.latitude+0.0008750, longitude: fromLocation.longitude+0.004100 }} identifier='fromLocation' anchor={{ x: 0.5, y: 0.65 }}>
+                    <Image source={images.car} className="w-14 h-44" resizeMode='contain' />
+                </Marker>
+                <Marker coordinate={{ latitude: fromLocation.latitude+0.006750, longitude: fromLocation.longitude+0.002900 }} identifier='fromLocation' anchor={{ x: 0.5, y: 0.65 }}>
+                    <Image source={images.bike} className="w-14 h-44" resizeMode='contain' />
+                </Marker>
+                <Marker coordinate={toLocation} identifier='toLocation' anchor={{ x: 0.5, y: 0.65 }} >
                     <Image source={images.pin} className="w-14 h-44" resizeMode='contain' />
                 </Marker>
                </>:
@@ -97,9 +104,6 @@ const MapViewer = () => {
 
                }
                 
-                {/* {carPositions.map((location, index) => (
-                    <VehicleMarker key={index} longitude={location.longitude} latitude={location.latitude} vehicleType={location.vehicleType} />
-                ))} */}
 
             </MapView>
             </View>

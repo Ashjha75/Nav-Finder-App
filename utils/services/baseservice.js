@@ -6,8 +6,8 @@ import axios from 'axios';
 
 
 const useApi = () => {
-  // const BASE_API_URL='https://nav-finder-backend.onrender.com/api/v1'
-  const BASE_API_URL='http://192.168.1.8:8000/api/v1'
+  const BASE_API_URL='https://nav-finder-backend.onrender.com/api/v1'
+  // const BASE_API_URL='http://192.168.1.8:8000/api/v1'
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 

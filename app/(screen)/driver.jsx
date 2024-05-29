@@ -53,6 +53,7 @@ const Driver = () => {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${user.accessToken}`,
       };
+      console.log(customHeaders)
       const response = await post(url, values, customHeaders);
       if (response.success) {
         setShowModal({

@@ -2,21 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, ActivityIndicator, View, Alert } from 'react-native';
 import { WebView } from 'react-native-webview';
 import axios from 'axios';
-import { router, useRouter } from 'expo-router'
+import { router, useLocalSearchParams, useRouter } from 'expo-router'
 
 import Base64 from 'Base64';
+import { useGlobalContext } from '../../context/GlobalProvider';
+import useApi from '../../utils/services/baseservice';
 
 
 const getPaymentLink = async (amount, currency, customerDetails, orderId) => {
 
     console.log(customerDetails);
-    const username = 'key';
-    const password = 'key';
+    const username = 'rzp_test_sU3gPtPLQ3W4su';
+    const password = 'ty3zD97eJNIi0vH7Tp9MXUnI';
 
     const body = {
         amount: amount,
         currency: currency,
-        description: "Razorpay Demo",
+        description: "Navfinder",
         customer: {
             name: customerDetails.name,
             contact: customerDetails.contact,
@@ -47,12 +49,37 @@ const getPaymentLink = async (amount, currency, customerDetails, orderId) => {
 };
 
 const RazorpayScreen = ({ setIsPayClicked }) => {
+    const {user}= useGlobalContext()
+    const {get}=useApi()
     const routes = useRouter();
+    const params = useLocalSearchParams();
     const [paymentLink, setPaymentLink] = useState(null);
-
+  
     useEffect(() => {
         handlePay();
-    }, []);
+      ;(async()=>{
+        try {
+            console.log(params.id)
+            const url = `payments/getCallback/${params.id}`;
+            const customHeaders = {
+                "Authorization": `Bearer ${user.accessToken}`,
+            };
+            const response = await get(url, {}, customHeaders);
+            if (response.success) {
+                params.message = null;
+                console.log(response.data)
+            }
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.message) {
+                console.log(error.response.data.message)
+            } else {
+               
+                console.log("Unexpected error format:", error);
+            }
+        } })()
+    }, [])
+    
+
 
     const handlePay = async () => {
         const customerDetails = {
@@ -61,7 +88,7 @@ const RazorpayScreen = ({ setIsPayClicked }) => {
             email: 'navfinder@gmail.com'
         };
         try {
-            const payLink = await getPaymentLink(100, 'INR', customerDetails, 123);
+            const payLink = await getPaymentLink(Number(params.amount*100), 'INR', customerDetails, 123);
             setPaymentLink(payLink.data.short_url);
         } catch (error) {
             Alert.alert("Error", "Failed to generate payment link");

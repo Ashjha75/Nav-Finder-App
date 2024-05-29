@@ -55,49 +55,7 @@ const Activity = () => {
         inputRange: [0, 1], // Matched inputRange to toValue
         outputRange: ['0deg', '360deg'] // Set outputRange for 360 degree rotation
     });
-    useEffect(() => {
-        if(params.message =="success" && params.id){
-      ;(async()=>{
-        try {
-            setLoading(true);
-            const url = `payments/getCallback?rideId=${params.id}`;
-            const customHeaders = {
-                "Authorization": `Bearer ${user.accessToken}`,
-            };
-            const response = await get(url, {}, customHeaders);
-            if (response.success) {
-                params.message = null;
-                console.log(response.data)
-                setResult(response.data);
-            }
-        } catch (error) {
-            if (error.response && error.response.data && error.response.data.message) {
-                setShowModal({
-                    isVisible: true,
-                    value: error.response.data.message,
-                    type: 'error',
-                    cancel: () => {
-                        setShowModal((prev) => ({ ...prev, isVisible: false }));
-                    },
-                });
-            } else {
-                setShowModal({
-                    isVisible: true,
-                    value: error.message,
-                    type: 'error',
-                    showConfirm: false,
-                    cancel: () => {
-                        setShowModal((prev) => ({ ...prev, isVisible: false }));
-                    },
-                });
-                console.log("Unexpected error format:", error);
-            }
-        } finally {
-            setLoading(false);
-        }})()
-    }}, [])
-    
-
+   
 
     const fetchActivities = async () => {
         try {
@@ -109,7 +67,6 @@ const Activity = () => {
             const response = await get(url, {}, customHeaders);
             if (response.success) {
                 params.message = null;
-                console.log(response.data)
                 setResult(response.data);
             }
         } catch (error) {

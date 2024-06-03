@@ -21,6 +21,7 @@ const SignIn = () => {
                 value: "",
                 type: "success"
             })
+            console.log(values)
             const url = "/auth/login";
             const response = await post(url, values);
             if (response.success) {

@@ -14,11 +14,7 @@ import PickFile from '../../components/pickFile';
 import { useGlobalContext } from '../../context/GlobalProvider';
 import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
-
 const OnboardingScreen = () => {
-    const [result, setResult] = useState(null)
-    const { loading, post } = useApi();
-    const [showModal, setShowModal] = useState({});
     const { user, setUser } = useGlobalContext();
     const backAction = () => {
         setShowModal({
@@ -94,7 +90,6 @@ const OnboardingScreen = () => {
                 formData.append(key, newValues[key]);
             }
         }
-
         // Implement the API call here
         try {
             setShowModal({

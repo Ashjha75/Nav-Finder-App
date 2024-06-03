@@ -57,7 +57,7 @@ const DocumentOptions = () => {
                     if (error.response && error.response.data && error.response.data.message) {
                         setShowModal({
                             isVisible: true,
-                            value: error.response.data.message,
+                            value: error.response.data.message,z
                         });
                     } else {
                         // Handle cases where response or its properties are undefined

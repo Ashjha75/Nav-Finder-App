@@ -106,7 +106,7 @@ const Driver = () => {
               // 'details' is provided when fetchDetails = true
             }}
             query={{
-              key: 'YOUR_API_KEY',
+              key: 'AIzaSyC2GqpvPKsmomitPqiMK3XX9yA7hQynS_g',
               language: 'en',
               components: 'country:in',
             }}

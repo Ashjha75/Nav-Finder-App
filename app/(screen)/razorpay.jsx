@@ -11,8 +11,8 @@ import useApi from '../../utils/services/baseservice';
 
 const getPaymentLink = async (amount, currency, customerDetails, orderId) => {
 
-    const username = 'Key';
-    const password = 'Key';
+    const username = 'rzp_test_sU3gPtPLQ3W4su';
+    const password = 'ty3zD97eJNIi0vH7Tp9MXUnI';
     const toPay=(parseInt(amount)).toFixed(2)*100
     console.log(toPay)
 

@@ -46,7 +46,7 @@ const RideInputs = () => {
             alert("Pickup and destination cannot be the same")
             return;
         }
-        const response = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${from}&destinations=${to}&key=YOUR_API_KEY`);
+        const response = await axios.get(`https://maps.googleapis.com/maps/api/distancematrix/json?units=metric&origins=${from}&destinations=${to}&key=AIzaSyC2GqpvPKsmomitPqiMK3XX9yA7hQynS_g`);
         const data = response.data;
         const distance = data.rows[0].elements[0].distance.text;
         const durationInSeconds = data.rows[0].elements[0].duration.value;
@@ -106,7 +106,7 @@ const RideInputs = () => {
                     setFromLocation({type:data.description,latitude:details.geometry.location.lat,longitude:details.geometry.location.lng})
                 }}
                 query={{
-                    key: 'YOUR_API_KEY',
+                    key: 'AIzaSyC2GqpvPKsmomitPqiMK3XX9yA7hQynS_g',
                     language: 'en',
                     components: 'country:in',
                 }}
@@ -164,7 +164,7 @@ const RideInputs = () => {
                     })
                 }}
                 query={{
-                    key: 'YOUR_API_KEY',
+                    key: 'AIzaSyC2GqpvPKsmomitPqiMK3XX9yA7hQynS_g',
                     language: 'en',
                     components: 'country:in',
                 }}

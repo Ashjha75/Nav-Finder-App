@@ -12,11 +12,11 @@ import useApi from '../../utils/services/baseservice';
 const getPaymentLink = async (amount, currency, customerDetails, orderId) => {
 
     console.log(customerDetails);
-    const username = 'rzp_test_sU3gPtPLQ3W4su';
-    const password = 'ty3zD97eJNIi0vH7Tp9MXUnI';
+    const username = 'key';
+    const password = 'key';
 
     const body = {
-        amount: amount,
+        amount: toPay,
         currency: currency,
         description: "Navfinder",
         customer: {
@@ -59,7 +59,6 @@ const RazorpayScreen = ({ setIsPayClicked }) => {
         handlePay();
       ;(async()=>{
         try {
-            console.log(params.id)
             const url = `payments/getCallback/${params.id}`;
             const customHeaders = {
                 "Authorization": `Bearer ${user.accessToken}`,
@@ -67,7 +66,6 @@ const RazorpayScreen = ({ setIsPayClicked }) => {
             const response = await get(url, {}, customHeaders);
             if (response.success) {
                 params.message = null;
-                console.log(response.data)
             }
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
@@ -88,7 +86,7 @@ const RazorpayScreen = ({ setIsPayClicked }) => {
             email: 'navfinder@gmail.com'
         };
         try {
-            const payLink = await getPaymentLink(Number(params.amount*100), 'INR', customerDetails, 123);
+            const payLink = await getPaymentLink(params.amount, 'INR', customerDetails, 123);
             setPaymentLink(payLink.data.short_url);
         } catch (error) {
             Alert.alert("Error", "Failed to generate payment link");

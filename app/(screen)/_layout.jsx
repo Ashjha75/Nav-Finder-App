@@ -19,13 +19,21 @@ const ScreenLayout = () => {
                     }}
                 />
                 <Stack.Screen
+<<<<<<< HEAD
                     name='changePassword'
+=======
+                    name='otp'
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
                     options={{
                         headerShown: false
                     }}
                 />
                 <Stack.Screen
+<<<<<<< HEAD
                     name='driver'
+=======
+                    name='changePassword'
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
                     options={{
                         headerShown: false
                     }}
@@ -36,6 +44,7 @@ const ScreenLayout = () => {
                         headerShown: false
                     }}
                 />
+<<<<<<< HEAD
                 <Stack.Screen
                     name='vehicleType'
                     options={{
@@ -48,6 +57,10 @@ const ScreenLayout = () => {
                         headerShown: false
                     }}
                 />
+=======
+
+
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
             </Stack>
             <StatusBar backgroundColor='#000' style='light' />
         </>

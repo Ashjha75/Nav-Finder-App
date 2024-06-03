@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
+<<<<<<< HEAD
 import { View, Text, ScrollView, Image, BackHandler } from 'react-native';
+=======
+import { View, Text, ScrollView, Image} from 'react-native';
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
 import images from '../../constants/images';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '../../components/customButton';
@@ -11,10 +15,14 @@ import CustomModal from '../../components/customModal';
 import FormField from '../../components/FormField';
 import SelectFormField from '../../components/selectFormField';
 import PickFile from '../../components/pickFile';
+<<<<<<< HEAD
 import { useGlobalContext } from '../../context/GlobalProvider';
 import { router } from 'expo-router';
 import * as SecureStore from 'expo-secure-store';
 
+=======
+// import RNFetchBlob from 'rn-fetch-blob';
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
 const OnboardingScreen = () => {
     const [result, setResult] = useState(null)
     const { loading, post } = useApi();
@@ -58,7 +66,10 @@ const OnboardingScreen = () => {
                     setShowModal({
                         isVisible: true,
                         value: error.response.data.message,
+<<<<<<< HEAD
                         type: 'error',
+=======
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
                     });
                 } else {
                     // Handle cases where response or its properties are undefined
@@ -71,6 +82,10 @@ const OnboardingScreen = () => {
 
     const onboardUser = async (values) => {
         let newValues = { ...values };
+<<<<<<< HEAD
+=======
+        newValues.AccountStatus="Active"
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
         // Extract the key from gender
         if (newValues.gender && newValues.gender.key) {
             newValues.gender = newValues.gender.key;
@@ -94,7 +109,22 @@ const OnboardingScreen = () => {
                 formData.append(key, newValues[key]);
             }
         }
+<<<<<<< HEAD
 
+=======
+        for (let key in newValues) {
+            if (key === 'file') {
+                // Append the file path directly to the FormData instance
+                formData.append(key, {
+                    uri: newValues[key].uri,
+                    type: newValues[key].mimeType,
+                    name: newValues[key].fileName,
+                });
+            } else {
+                formData.append(key, newValues[key]);
+            }
+        }
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
         // Implement the API call here
         try {
             setShowModal({
@@ -104,12 +134,20 @@ const OnboardingScreen = () => {
             })
             const url = "/auth/onboarding";
             const customHeaders = {
+<<<<<<< HEAD
                 "Content-Type": "multipart/form-data",
                 "Authorization": `Bearer ${token}`,
             };
 
             const response = await post(url, formData, customHeaders);
             if (response && response.success) {
+=======
+                'Content-Type': 'multipart/form-data',
+                "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NDA4MWI4MzI4Y2MxZGRhMTRiNzFhYiIsImVtYWlsIjoib25lQGdtYWlsLmNvbSIsInVzZXJOYW1lIjoidXNlcm9uZSIsImFjY291bnRUeXBlIjoiVXNlciIsIkFjY291bnRTdGF0dXMiOiIiLCJpc09uYm9hcmRlZCI6dHJ1ZSwiaWF0IjoxNzE1ODU4MTc0LCJleHAiOjE3MTU5NDQ1NzR9.pe5I21QHPnksnKCavHnrjIDiAtyDjLarJDsV2jmsIBo"
+            };
+            const response = await post(url, formData, customHeaders);
+            if (response.success) {
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
                 setShowModal({
                     isVisible: true,
                     value: response.message,
@@ -124,7 +162,10 @@ const OnboardingScreen = () => {
                 setShowModal({
                     isVisible: true,
                     value: error.response.data.message,
+<<<<<<< HEAD
                     type: 'error',
+=======
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
                 });
             } else {
                 // Handle cases where response or its properties are undefined
@@ -182,6 +223,7 @@ const OnboardingScreen = () => {
                             {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => {
                                 return (
                                     <View className=" mt-5 px-5">
+<<<<<<< HEAD
                                         <PickFile title="Profile Picture" value={values.file} handleChange={handleChange('file')} handleBlur={handleBlur('file')} error={errors.file} touched={touched.file} setFieldValue={setFieldValue} />
                                         <FormField
                                             title="First Name"
@@ -311,6 +353,137 @@ const OnboardingScreen = () => {
                                         />
                                         <CustomButton title="Submit" containerStyle="mt-10" handlePress={handleSubmit} />
                                     </View>
+=======
+                                <PickFile title="Profile Picture" value={values.file} handleChange={handleChange('file')} handleBlur={handleBlur('file')} error={errors.file} touched={touched.file} setFieldValue={setFieldValue} />
+                                    <FormField
+                                        title="First Name"
+                                        value={values.firstName}
+                                        handleChangeText={handleChange('firstName')}
+                                        handleBlur={handleBlur('firstName')}
+                                        error={errors.firstName}
+                                        touched={touched.firstName}
+                                        keyboardType="default"
+                                    />
+                                    <FormField
+                                        title="Last Name"
+                                        value={values.lastName}
+                                        handleChangeText={handleChange('lastName')}
+                                        handleBlur={handleBlur('lastName')}
+                                        error={errors.lastName}
+                                        touched={touched.lastName}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <SelectFormField
+                                        data={result ? result?.genders : []}
+                                        title="Gender"
+                                        selectedItem={values.gender}
+                                        handleSelect={(selectedItem) => setFieldValue('gender', selectedItem)}
+                                        error={errors.gender}
+                                        touched={touched.gender}
+                                    />
+                                    <FormField
+                                        title="Mobile"
+                                        value={values.mobile}
+                                        handleChangeText={handleChange('mobile')}
+                                        handleBlur={handleBlur('mobile')}
+                                        error={errors.mobile}
+                                        touched={touched.mobile}
+                                        otherStyle="mt-7"
+                                        keyboardType="numeric"
+                                    />
+                                    <FormField
+                                        title="Date of Birth"
+                                        value={values.dob}
+                                        handleChangeText={handleChange('dob')}
+                                        handleBlur={handleBlur('dob')}
+                                        error={errors.dob}
+                                        touched={touched.dob}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <FormField
+                                        title="Landmark"
+                                        value={values.address.landmark}
+                                        handleChangeText={handleChange('address.landmark')}
+                                        handleBlur={handleBlur('address.landmark')}
+                                        error={errors.address?.landmark}
+                                        touched={touched.address?.landmark}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <FormField
+                                        title="Street"
+                                        value={values.address.street}
+                                        handleChangeText={handleChange('address.street')}
+                                        handleBlur={handleBlur('address.street')}
+                                        error={errors.address?.street}
+                                        touched={touched.address?.street}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <FormField
+                                        title="City"
+                                        value={values.address.city}
+                                        handleChangeText={handleChange('address.city')}
+                                        handleBlur={handleBlur('address.city')}
+                                        error={errors.address?.city}
+                                        touched={touched.address?.city}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <FormField
+                                        title="State"
+                                        value={values.address.state}
+                                        handleChangeText={handleChange('address.state')}
+                                        handleBlur={handleBlur('address.state')}
+                                        error={errors.address?.state}
+                                        touched={touched.address?.state}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <FormField
+                                        title="Postal Code"
+                                        value={values.address.postalCode}
+                                        handleChangeText={handleChange('address.postalCode')}
+                                        handleBlur={handleBlur('address.postalCode')}
+                                        error={errors.address?.postalCode}
+                                        touched={touched.address?.postalCode}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <FormField
+                                        title="Country"
+                                        value={values.address.country}
+                                        handleChangeText={handleChange('address.country')}
+                                        handleBlur={handleBlur('address.country')}
+                                        error={errors.address?.country}
+                                        touched={touched.address?.country}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <SelectFormField
+                                        data={result ? result?.securityQuestions : []}
+                                        title="Security Question"
+                                        selectedItem={values.securityQuestions?.question1}
+                                        handleSelect={(selectedItem) => setFieldValue('securityQuestions.question1', selectedItem.key)}
+                                        error={errors.securityQuestions?.question1}
+                                        touched={touched.securityQuestions?.question1}
+                                        dropdownDirection="up"
+                                    />
+                                    <FormField
+                                        title="Security Answer"
+                                        value={values.securityQuestions.answer1}
+                                        handleChangeText={handleChange('securityQuestions.answer1')}
+                                        handleBlur={handleBlur('securityQuestions.answer1')}
+                                        error={errors.securityQuestions?.answer1}
+                                        touched={touched.securityQuestions?.answer1}
+                                        otherStyle="mt-7"
+                                        keyboardType="default"
+                                    />
+                                    <CustomButton title="Submit" containerStyle="mt-10" handlePress={handleSubmit} />
+                                </View>
+>>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
                                 )
                             }}
                         </Formik>

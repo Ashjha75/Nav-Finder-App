@@ -46,16 +46,11 @@ const useApi = () => {
     }
   }, [api]);
   const post = useCallback(async (url, data = {}, customHeaders = {}) => {
-<<<<<<< HEAD
-=======
-    
->>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
     setError(null);
     setLoading(true);
     try {
       const response = await api.post(url, data, { headers: { ...api.defaults.headers, ...customHeaders } });
       return response?.data;
-<<<<<<< HEAD
     } catch (error) {
       setError(error);
       throw error;
@@ -69,8 +64,6 @@ const useApi = () => {
     try {
       const response = await api.delete(url, data, { headers: { ...api.defaults.headers, ...customHeaders } });
       return response?.data;
-=======
->>>>>>> 0137f8fb9020cefd362d4e52618e86de7324f98f
     } catch (error) {
       setError(error);
       throw error;

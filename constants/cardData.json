@@ -1,0 +1,51 @@
+[
+    {
+        "id": 1,
+        "title": "Get there together",
+        "subtitle": "Try Group Trips",
+        "imagePath": "groupRide",
+        "bgcolor": "#b68001e0"
+    },
+    {
+        "id": 2,
+        "title": "You have multiple promos ",
+        "subtitle": "Terms apply",
+        "imagePath": "promo",
+        "bgcolor": "#d8cef5"
+    },
+    {
+        "id": 3,
+        "title": "Book cars by the hour",
+        "subtitle": "Try rental",
+        "imagePath": "yourschdeule",
+        "bgcolor": "#d8c666"
+    },
+    {
+        "id": 4,
+        "title": "Schedule your ride",
+        "subtitle": "Try reserve",
+        "imagePath": "ondemand",
+        "bgcolor": "#e92d57"
+    },
+    {
+        "id": 5,
+        "title": "Travel on your schedule",
+        "subtitle": "Reserve a ride",
+        "imagePath": "scheduletime",
+        "bgcolor": "#1b5E20"
+    },
+    {
+        "id": 6,
+        "title": "Outstation bus on demand",
+        "subtitle": "Try shuttles",
+        "imagePath": "shuttlebus",
+        "bgcolor": "#1a237e"
+    },
+    {
+        "id": 7,
+        "title": "When you need more room",
+        "subtitle": "Request bike",
+        "imagePath": "space",
+        "bgcolor": "#00f987"
+    }
+]

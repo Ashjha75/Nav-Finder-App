@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "image": "password",
+        "name": "Change password",
+        "link": "/changePassword"
+    },
+    {
+        "id": 2,
+        "image": "user",
+        "name": "Earn by driving",
+        "link": "/driver"
+    },
+    {
+        "id": 3,
+        "image": "gear",
+        "name": "Settings",
+        "link": ""
+    },
+    {
+        "id": 4,
+        "image": "email",
+        "name": "Messages",
+        "link": ""
+    },
+    {
+        "id": 5,
+        "image": "giftBox",
+        "name": "Send a gift",
+        "link": ""
+    },
+    {
+        "id": 6,
+        "image": "routes",
+        "name": "Shuttle Routes",
+        "link": ""
+    }
+]

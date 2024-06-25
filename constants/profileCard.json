@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "title": "You have multiple promo",
+        "subtitle": "We'll automatically apply the one that saves you the most money",
+        "imagePath": "promos"
+    },
+    {
+        "id": 2,
+        "title": "Saftey check-up",
+        "subtitle": "Learn way to make your trips safer and smoother.",
+        "imagePath": "graph"
+    },
+    {
+        "id": 3,
+        "title": "Privacy check-up",
+        "subtitle": "Take an interactive tour of your privacy settings.",
+        "imagePath": "clipBoard"
+    },
+    {
+        "id": 4,
+        "title": "Estimated CO2 saved",
+        "subtitle": "0 g",
+        "imagePath": "leaf"
+    }
+]

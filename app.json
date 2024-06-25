@@ -1,0 +1,56 @@
+{
+  "expo": {
+    "name": "Navfinder",
+    "slug": "navfinder",
+    "scheme": "navfinder",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/OIG2.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/images/logo.jpeg",
+      "resizeMode": "contain",
+      "backgroundColor": "#000000"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/OIG2.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.ashishjha75.navfinder",
+      "config":{
+        "googleMaps":{
+          "apiKey":"AIzaSyC2GqpvPKsmomitPqiMK3XX9yA7hQynS_g"
+        }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow NavFinder to use your location."
+        }
+      ],
+      "expo-font",
+      "expo-secure-store"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "91fb1bb7-7c84-4d16-85aa-c481a19e4d9f"
+      }
+    }
+  }
+}
